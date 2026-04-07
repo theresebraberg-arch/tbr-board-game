@@ -35,17 +35,13 @@ body {
 
 #board {
   display: grid;
-
-  /* 👇 MAGIC */
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-
   width: 95vw;
   max-width: 1200px;
-
   gap: 12px;
 }
 
-/* RUTOR */
+/* CELLS */
 .cell {
   aspect-ratio: 1 / 1;
   border-radius: 16px;
@@ -59,12 +55,26 @@ body {
   position: relative;
 }
 
-/* PJÄS */
+/* 🎯 NY SPELPJÄS */
 .player {
   position: absolute;
-  top: 5px;
-  right: 7px;
-  font-size: 18px;
+  bottom: 6px;
+  right: 6px;
+
+  width: 30px;
+  height: 30px;
+
+  background: white;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 16px;
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  border: 2px solid #9333ea;
 }
 
 /* BUTTON */
