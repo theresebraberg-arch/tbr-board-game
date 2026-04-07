@@ -8,6 +8,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
+/* TOP */
 .topbar {
   text-align: center;
   padding: 10px;
@@ -23,7 +24,7 @@ body {
   color: #6b21a8;
 }
 
-/* 🧠 MAGIC FIX */
+/* BOARD */
 #boardWrapper {
   flex: 1;
   display: flex;
@@ -35,34 +36,38 @@ body {
 #board {
   display: grid;
 
-  /* 👇 AUTO ANPASSAR SIG */
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  /* 👇 MAGIC */
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+
   width: 95vw;
   max-width: 1200px;
 
-  gap: 10px;
+  gap: 12px;
 }
 
+/* RUTOR */
 .cell {
   aspect-ratio: 1 / 1;
-  border-radius: 14px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 6px;
-  font-size: clamp(10px, 1vw, 14px);
+  padding: 8px;
+  font-size: clamp(11px, 1vw, 15px);
   box-shadow: 0 5px 12px rgba(0,0,0,0.1);
   position: relative;
 }
 
+/* PJÄS */
 .player {
   position: absolute;
-  top: 4px;
-  right: 6px;
+  top: 5px;
+  right: 7px;
   font-size: 18px;
 }
 
+/* BUTTON */
 button {
   padding: 8px 18px;
   border-radius: 10px;
