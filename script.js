@@ -2,10 +2,12 @@ let position = 0;
 let isMoving = false;
 
 const boardDiv = document.getElementById("board");
+const dice = document.getElementById("dice");
+const diceResult = document.getElementById("diceResult");
 
 const size = 5;
 
-// 🧭 skapa snake path
+// 🧭 Snake path
 function createPath() {
   let path = [];
 
@@ -28,7 +30,7 @@ function createPath() {
 
 const path = createPath();
 
-// 🎨 rendera brädet
+// 🎨 Render
 function renderBoard() {
   boardDiv.innerHTML = "";
 
@@ -47,23 +49,40 @@ function renderBoard() {
   });
 }
 
-// 🎲 slå tärning
+// 🎲 Roll dice
 async function rollDice() {
   if (isMoving) return;
 
   isMoving = true;
 
+  dice.classList.add("roll");
+
+  // 🎲 slump-animation
+  let tempRoll;
+  for (let i = 0; i < 6; i++) {
+    tempRoll = Math.floor(Math.random() * 6) + 1;
+    dice.textContent = tempRoll;
+    await new Promise(r => setTimeout(r, 100));
+  }
+
   const roll = Math.floor(Math.random() * 6) + 1;
+
+  dice.textContent = roll;
+  diceResult.textContent = `Du slog: ${roll}`;
+
+  await new Promise(r => setTimeout(r, 200));
 
   for (let i = 0; i < roll; i++) {
     await moveOneStep();
   }
 
   handleSquare(board[path[position]]);
+  dice.classList.remove("roll");
+
   isMoving = false;
 }
 
-// 🚶 gå ett steg i taget
+// 🚶 Movement
 function moveOneStep() {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -79,7 +98,7 @@ function moveOneStep() {
   });
 }
 
-// 🎯 hantera ruta
+// 🎯 Squares
 function handleSquare(square) {
   let text = square;
 
@@ -99,7 +118,6 @@ function handleSquare(square) {
   renderBoard();
 }
 
-// ❌ stäng popup
 function closePopup() {
   document.getElementById("popup").classList.add("hidden");
 }
