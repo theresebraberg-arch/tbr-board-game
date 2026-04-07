@@ -15,9 +15,7 @@ const colors = [
 const boardDiv = document.getElementById("board");
 const diceText = document.getElementById("diceText");
 
-const diceFaces = ["⚀","⚁","⚂","⚃","⚄","⚅"];
-
-/* 🔀 SHUFFLE */
+/* SHUFFLE */
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -25,7 +23,6 @@ function shuffle(array) {
   }
 }
 
-/* 👇 BLANDA BRÄDET DIREKT */
 shuffle(board);
 
 function renderBoard() {
@@ -53,14 +50,15 @@ async function rollDice() {
   if (isMoving) return;
   isMoving = true;
 
-  let roll = Math.floor(Math.random() * 6);
-  diceText.textContent = `Du slog: ${roll + 1}`;
+  let roll = Math.floor(Math.random() * 6) + 1;
 
-  for (let i = 0; i < roll + 1; i++) {
+  diceText.textContent = `Du slog: ${roll}`;
+
+  for (let i = 0; i < roll; i++) {
     await moveOneStep();
   }
 
-  await handleSquare(board[position]);
+  await handleSquare();
 
   isMoving = false;
 }
@@ -76,30 +74,20 @@ function moveOneStep() {
   });
 }
 
-/* 🧠 HANTERA ALLA SPECIALRUTOR */
-async function handleSquare(square) {
+async function handleSquare() {
+
+  let square = board[position];
 
   while (true) {
 
-    if (square === "Back 1") {
-      position -= 1;
-    }
-    else if (square === "Back 3") {
-      position -= 3;
-    }
-    else if (square === "Forward 2") {
-      position += 2;
-    }
-    else if (square === "Forward 3") {
-      position += 3;
-    }
+    if (square === "Back 1") position -= 1;
+    else if (square === "Back 3") position -= 3;
+    else if (square === "Forward 2") position += 2;
+    else if (square === "Forward 3") position += 3;
     else if (square === "Slå igen") {
       await rollDice();
       return;
-    }
-    else {
-      break;
-    }
+    } else break;
 
     if (position < 0) position = 0;
     if (position >= board.length) position = board.length - 1;
@@ -111,12 +99,12 @@ async function handleSquare(square) {
     square = board[position];
   }
 
-  /* 📚 TBR JAR */
+  /* RESULTAT VISAS HÄR ISTÄLLET */
   if (square === "TBR jar") {
     const book = tbrBooks[Math.floor(Math.random() * tbrBooks.length)];
-    alert("📚 " + book);
+    diceText.textContent = `📚 ${book}`;
   } else {
-    alert(square);
+    diceText.textContent = square;
   }
 }
 
