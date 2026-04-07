@@ -5,32 +5,9 @@ const boardDiv = document.getElementById("board");
 const dice = document.getElementById("dice");
 const diceText = document.getElementById("diceText");
 
-const size = 5;
+// 🎲 riktiga tärningar
+const diceFaces = ["⚀","⚁","⚂","⚃","⚄","⚅"];
 
-// 🧭 snake path
-function createPath() {
-  let path = [];
-
-  for (let row = 0; row < size; row++) {
-    let rowArray = [];
-
-    for (let col = 0; col < size; col++) {
-      rowArray.push(row * size + col);
-    }
-
-    if (row % 2 === 1) {
-      rowArray.reverse();
-    }
-
-    path.push(...rowArray);
-  }
-
-  return path;
-}
-
-const path = createPath();
-
-// 🎨 render
 function renderBoard() {
   boardDiv.innerHTML = "";
 
@@ -38,7 +15,7 @@ function renderBoard() {
     const div = document.createElement("div");
     div.className = "cell";
 
-    if (path[position] === index) {
+    if (index === position) {
       div.innerHTML = "📖";
       div.classList.add("active");
     } else {
@@ -49,72 +26,59 @@ function renderBoard() {
   });
 }
 
-// 🎲 roll
 async function rollDice() {
   if (isMoving) return;
-
   isMoving = true;
 
-  // fake rolling
-  for (let i = 0; i < 8; i++) {
-    let temp = Math.floor(Math.random() * 6) + 1;
-    dice.textContent = temp;
+  dice.classList.add("roll");
+
+  // 🎲 animation
+  for (let i = 0; i < 10; i++) {
+    let temp = Math.floor(Math.random() * 6);
+    dice.textContent = diceFaces[temp];
     await new Promise(r => setTimeout(r, 80));
   }
 
-  const roll = Math.floor(Math.random() * 6) + 1;
+  const roll = Math.floor(Math.random() * 6);
+  dice.textContent = diceFaces[roll];
 
-  dice.textContent = roll;
-  diceText.textContent = `Du slog: ${roll}`;
+  diceText.textContent = `Du slog: ${roll + 1}`;
 
-  for (let i = 0; i < roll; i++) {
+  for (let i = 0; i < roll + 1; i++) {
     await moveOneStep();
   }
 
-  handleSquare(board[path[position]]);
+  handleSquare(board[position]);
 
+  dice.classList.remove("roll");
   isMoving = false;
 }
 
-// 🚶 move
 function moveOneStep() {
   return new Promise(resolve => {
     setTimeout(() => {
       position++;
-
-      if (position >= path.length) {
-        position = 0;
-      }
-
+      if (position >= board.length) position = 0;
       renderBoard();
       resolve();
     }, 250);
   });
 }
 
-// 🎯 square
 function handleSquare(square) {
   let text = square;
 
   if (square === "TBR") {
     const randomBook = tbrBooks[Math.floor(Math.random() * tbrBooks.length)];
-    text = "📚 TBR Jar:\n" + randomBook;
+    text = "📚 " + randomBook;
   }
-
-  if (square === "Back 1") position = Math.max(0, position - 1);
-  if (square === "Back 3") position = Math.max(0, position - 3);
-  if (square === "Forward 2") position = (position + 2) % path.length;
-  if (square === "Forward 3") position = (position + 3) % path.length;
 
   document.getElementById("popupContent").innerText = text;
   document.getElementById("popup").classList.remove("hidden");
-
-  renderBoard();
 }
 
 function closePopup() {
   document.getElementById("popup").classList.add("hidden");
 }
 
-// start
 renderBoard();
