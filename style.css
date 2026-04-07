@@ -1,19 +1,17 @@
 body {
   margin: 0;
   height: 100vh;
-  overflow: hidden; /* 🚫 ingen scroll */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   background: linear-gradient(135deg, #f3e8ff, #d8b4fe);
   font-family: Arial, sans-serif;
 }
 
-/* 🔝 TOP BAR */
 .topbar {
   text-align: center;
   padding: 10px;
   background: #f3e8ff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 #dice {
@@ -25,41 +23,29 @@ body {
   color: #6b21a8;
 }
 
-/* 🎲 BUTTON */
-button {
-  margin-top: 5px;
-  padding: 8px 18px;
-  border-radius: 10px;
-  border: none;
-  background: #9333ea;
-  color: white;
-  cursor: pointer;
-}
-
-/* 📦 BOARD WRAPPER */
+/* 🧠 MAGIC FIX */
 #boardWrapper {
-  flex: 1; /* tar resten av skärmen */
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px;
 }
 
-/* 🧩 GRID */
 #board {
   display: grid;
-  width: 95vw;
-  height: 75vh;
 
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(9, 1fr);
+  /* 👇 AUTO ANPASSAR SIG */
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  width: 95vw;
+  max-width: 1200px;
 
   gap: 10px;
 }
 
-/* 📌 RUTOR */
 .cell {
-  border-radius: 16px;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,26 +56,18 @@ button {
   position: relative;
 }
 
-/* 📖 PJÄS */
 .player {
   position: absolute;
   top: 4px;
   right: 6px;
-  font-size: clamp(14px, 1.5vw, 20px);
+  font-size: 18px;
 }
 
-/* POPUP */
-#popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border-radius: 18px;
-  z-index: 10;
-}
-
-.hidden {
-  display: none;
+button {
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: none;
+  background: #9333ea;
+  color: white;
+  cursor: pointer;
 }
