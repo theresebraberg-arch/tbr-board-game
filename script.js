@@ -4,9 +4,6 @@ let isMoving = false;
 const boardDiv = document.getElementById("board");
 const dice = document.getElementById("dice");
 const diceText = document.getElementById("diceText");
-
-const popup = document.getElementById("popup");
-const overlay = document.getElementById("overlay");
 const popupContent = document.getElementById("popupContent");
 
 // 🎲 dice faces
@@ -20,11 +17,14 @@ function renderBoard() {
     const div = document.createElement("div");
     div.className = "cell";
 
+    div.textContent = cell;
+
+    // 📖 lägg spelpjäs ovanpå
     if (index === position) {
-      div.innerHTML = "📖";
-      div.classList.add("active");
-    } else {
-      div.textContent = cell;
+      const player = document.createElement("div");
+      player.className = "player";
+      player.textContent = "📖";
+      div.appendChild(player);
     }
 
     boardDiv.appendChild(div);
@@ -36,7 +36,6 @@ async function rollDice() {
   if (isMoving) return;
   isMoving = true;
 
-  // animation
   for (let i = 0; i < 8; i++) {
     let temp = Math.floor(Math.random() * 6);
     dice.textContent = diceFaces[temp];
@@ -68,7 +67,7 @@ function moveOneStep() {
   });
 }
 
-// 🎯 square handler
+// 🎯 square
 function handleSquare(square) {
   let text = square;
 
@@ -78,24 +77,11 @@ function handleSquare(square) {
   }
 
   popupContent.textContent = text;
-
-  overlay.classList.remove("hidden");
-  popup.classList.remove("hidden");
-
-  setTimeout(() => {
-    popup.classList.add("show");
-  }, 10);
+  document.getElementById("popup").classList.remove("hidden");
 }
 
-// ❌ close popup
 function closePopup() {
-  popup.classList.remove("show");
-
-  setTimeout(() => {
-    popup.classList.add("hidden");
-    overlay.classList.add("hidden");
-  }, 200);
+  document.getElementById("popup").classList.add("hidden");
 }
 
-// start
 renderBoard();
