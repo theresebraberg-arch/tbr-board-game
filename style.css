@@ -37,10 +37,6 @@ h1 {
   box-shadow: 0 0 15px #c084fc;
 }
 
-.player {
-  font-size: 22px;
-}
-
 button {
   padding: 10px 20px;
   border-radius: 10px;
@@ -55,7 +51,6 @@ button:hover {
   background: #9333ea;
 }
 
-/* Popup glow */
 #popup {
   position: fixed;
   top: 30%;
