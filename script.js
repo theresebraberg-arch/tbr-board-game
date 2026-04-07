@@ -57,7 +57,8 @@ async function rollDice() {
 
   let roll = Math.floor(Math.random() * 6) + 1;
 
-  diceText.textContent = `Du slog: ${roll}`;
+  /* 👇 VISAR BARA SLAGET */
+  diceText.textContent = `🎲 Du slog: ${roll}`;
 
   for (let i = 0; i < roll; i++) {
     await moveOneStep();
@@ -104,11 +105,10 @@ async function handleSquare() {
     square = board[position];
   }
 
+  /* 📚 TBR JAR – visas separat */
   if (square === "TBR jar") {
     const book = tbrBooks[Math.floor(Math.random() * tbrBooks.length)];
-    diceText.textContent = `📚 ${book}`;
-  } else {
-    diceText.textContent = square;
+    console.log("TBR Jar:", book);
   }
 }
 
