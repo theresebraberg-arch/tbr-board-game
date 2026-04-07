@@ -1,19 +1,14 @@
 const tbrBooks = [
-  "Powerless – Lauren Roberts",
-  "Fourth Wing – Rebecca Yarros",
-  "Iron Flame – Rebecca Yarros",
-  "The Housemaid – Freida McFadden",
-  "Never Lie – Freida McFadden",
-  "The Coworker – Freida McFadden",
-  "Things We Never Got Over – Lucy Score",
-  "Twisted Love – Ana Huang",
-  "Haunting Adeline – H.D. Carlton",
-  "A Court of Thorns and Roses – Sarah J. Maas",
-  "Caraval – Stephanie Garber",
-  "Once Upon a Broken Heart – Stephanie Garber"
+  "Fourth Wing",
+  "Iron Flame",
+  "Powerless",
+  "The Housemaid",
+  "Never Lie",
+  "Things We Never Got Over",
+  "Twisted Love"
 ];
 
-const board = [
+const baseSquares = [
   "Free pick",
   "Nyast på min TBR",
   "Romance",
@@ -82,3 +77,18 @@ const board = [
   "Romantasy",
   "En ny genre du inte läst förut"
 ];
+
+const extras = [
+  "Back 1",
+  "Back 3",
+  "Forward 2",
+  "Forward 3",
+  "TBR jar",
+  "TBR jar",
+  "Romance",
+  "Romantasy",
+  "Thriller",
+  "Fantasy"
+];
+
+const board = [...baseSquares, ...extras];
