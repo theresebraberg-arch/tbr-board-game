@@ -13,11 +13,20 @@ const colors = [
 ];
 
 const boardDiv = document.getElementById("board");
-const dice = document.getElementById("dice");
 const diceText = document.getElementById("diceText");
-const popupContent = document.getElementById("popupContent");
-const popup = document.getElementById("popup");
-const overlay = document.getElementById("overlay");
+
+const diceFaces = ["⚀","⚁","⚂","⚃","⚄","⚅"];
+
+/* 🔀 SHUFFLE */
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+/* 👇 BLANDA BRÄDET DIREKT */
+shuffle(board);
 
 function renderBoard() {
   boardDiv.innerHTML = "";
@@ -27,7 +36,6 @@ function renderBoard() {
     div.className = "cell";
     div.textContent = cell;
 
-    // RANDOM färg
     div.style.background = colors[Math.floor(Math.random() * colors.length)];
 
     if (index === position) {
@@ -45,16 +53,15 @@ async function rollDice() {
   if (isMoving) return;
   isMoving = true;
 
-  const roll = Math.floor(Math.random() * 6) + 1;
+  let roll = Math.floor(Math.random() * 6);
+  diceText.textContent = `Du slog: ${roll + 1}`;
 
-  dice.textContent = "🎲";
-  diceText.textContent = `Du slog: ${roll}`;
-
-  for (let i = 0; i < roll; i++) {
+  for (let i = 0; i < roll + 1; i++) {
     await moveOneStep();
   }
 
-  handleSquare(board[position]);
+  await handleSquare(board[position]);
+
   isMoving = false;
 }
 
@@ -65,37 +72,52 @@ function moveOneStep() {
       if (position >= board.length) position = 0;
       renderBoard();
       resolve();
-    }, 150);
+    }, 120);
   });
 }
 
-function handleSquare(square) {
+/* 🧠 HANTERA ALLA SPECIALRUTOR */
+async function handleSquare(square) {
 
-  if (square === "Back 1") position -= 1;
-  if (square === "Back 3") position -= 3;
-  if (square === "Forward 2") position += 2;
-  if (square === "Forward 3") position += 3;
+  while (true) {
 
-  if (position < 0) position = 0;
-  if (position >= board.length) position = board.length - 1;
+    if (square === "Back 1") {
+      position -= 1;
+    }
+    else if (square === "Back 3") {
+      position -= 3;
+    }
+    else if (square === "Forward 2") {
+      position += 2;
+    }
+    else if (square === "Forward 3") {
+      position += 3;
+    }
+    else if (square === "Slå igen") {
+      await rollDice();
+      return;
+    }
+    else {
+      break;
+    }
 
-  let text = square;
+    if (position < 0) position = 0;
+    if (position >= board.length) position = board.length - 1;
 
-  if (square === "TBR jar") {
-    const randomBook = tbrBooks[Math.floor(Math.random() * tbrBooks.length)];
-    text = `📚 ${randomBook}`;
+    renderBoard();
+
+    await new Promise(r => setTimeout(r, 300));
+
+    square = board[position];
   }
 
-  renderBoard();
-
-  popupContent.textContent = text;
-  popup.classList.remove("hidden");
-  overlay.classList.remove("hidden");
-}
-
-function closePopup() {
-  popup.classList.add("hidden");
-  overlay.classList.add("hidden");
+  /* 📚 TBR JAR */
+  if (square === "TBR jar") {
+    const book = tbrBooks[Math.floor(Math.random() * tbrBooks.length)];
+    alert("📚 " + book);
+  } else {
+    alert(square);
+  }
 }
 
 renderBoard();
