@@ -6,19 +6,36 @@ const boardDiv = document.getElementById("board");
 function renderBoard() {
   boardDiv.innerHTML = "";
 
-  board.forEach((cell, index) => {
-    const div = document.createElement("div");
-    div.className = "cell";
+  const size = 5;
 
-    if (index === position) {
-      div.innerHTML = "📖";
-      div.classList.add("active");
-    } else {
-      div.textContent = cell;
+  for (let row = 0; row < size; row++) {
+    let rowCells = [];
+
+    for (let col = 0; col < size; col++) {
+      let index = row * size + col;
+
+      // 🔁 varannan rad baklänges
+      if (row % 2 === 1) {
+        index = row * size + (size - 1 - col);
+      }
+
+      rowCells.push({ cell: board[index], index });
     }
 
-    boardDiv.appendChild(div);
-  });
+    rowCells.forEach(({ cell, index }) => {
+      const div = document.createElement("div");
+      div.className = "cell";
+
+      if (index === position) {
+        div.innerHTML = "📖";
+        div.classList.add("active");
+      } else {
+        div.textContent = cell;
+      }
+
+      boardDiv.appendChild(div);
+    });
+  }
 }
 
 async function rollDice() {
