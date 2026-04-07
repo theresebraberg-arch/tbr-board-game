@@ -3,11 +3,11 @@ let isMoving = false;
 
 const boardDiv = document.getElementById("board");
 const dice = document.getElementById("dice");
-const diceResult = document.getElementById("diceResult");
+const diceText = document.getElementById("diceText");
 
 const size = 5;
 
-// 🧭 Snake path
+// 🧭 snake path
 function createPath() {
   let path = [];
 
@@ -30,7 +30,7 @@ function createPath() {
 
 const path = createPath();
 
-// 🎨 Render
+// 🎨 render
 function renderBoard() {
   boardDiv.innerHTML = "";
 
@@ -49,40 +49,34 @@ function renderBoard() {
   });
 }
 
-// 🎲 Roll dice
+// 🎲 roll
 async function rollDice() {
   if (isMoving) return;
 
   isMoving = true;
 
-  dice.classList.add("roll");
-
-  // 🎲 slump-animation
-  let tempRoll;
-  for (let i = 0; i < 6; i++) {
-    tempRoll = Math.floor(Math.random() * 6) + 1;
-    dice.textContent = tempRoll;
-    await new Promise(r => setTimeout(r, 100));
+  // fake rolling
+  for (let i = 0; i < 8; i++) {
+    let temp = Math.floor(Math.random() * 6) + 1;
+    dice.textContent = temp;
+    await new Promise(r => setTimeout(r, 80));
   }
 
   const roll = Math.floor(Math.random() * 6) + 1;
 
   dice.textContent = roll;
-  diceResult.textContent = `Du slog: ${roll}`;
-
-  await new Promise(r => setTimeout(r, 200));
+  diceText.textContent = `Du slog: ${roll}`;
 
   for (let i = 0; i < roll; i++) {
     await moveOneStep();
   }
 
   handleSquare(board[path[position]]);
-  dice.classList.remove("roll");
 
   isMoving = false;
 }
 
-// 🚶 Movement
+// 🚶 move
 function moveOneStep() {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -94,11 +88,11 @@ function moveOneStep() {
 
       renderBoard();
       resolve();
-    }, 300);
+    }, 250);
   });
 }
 
-// 🎯 Squares
+// 🎯 square
 function handleSquare(square) {
   let text = square;
 
