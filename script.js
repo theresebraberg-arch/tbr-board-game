@@ -15,7 +15,7 @@ const colors = [
 const boardDiv = document.getElementById("board");
 const diceText = document.getElementById("diceText");
 
-/* 🔀 SHUFFLE */
+/* SHUFFLE */
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -25,7 +25,7 @@ function shuffle(array) {
 
 shuffle(board);
 
-/* 🎨 SPARA FÄRGER */
+/* SPARA FÄRGER */
 const cellColors = board.map(() => {
   return colors[Math.floor(Math.random() * colors.length)];
 });
@@ -43,7 +43,7 @@ function renderBoard() {
     if (index === position) {
       const player = document.createElement("div");
       player.className = "player";
-      player.textContent = "📚";
+      player.textContent = "📖";
       div.appendChild(player);
     }
 
