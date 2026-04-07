@@ -25,7 +25,7 @@ function shuffle(array) {
 
 shuffle(board);
 
-/* 🎨 SPARA FÄRGER EN GÅNG */
+/* 🎨 SPARA FÄRGER */
 const cellColors = board.map(() => {
   return colors[Math.floor(Math.random() * colors.length)];
 });
@@ -38,13 +38,12 @@ function renderBoard() {
     div.className = "cell";
     div.textContent = cell;
 
-    /* 👉 ANVÄND SPARAD FÄRG */
     div.style.background = cellColors[index];
 
     if (index === position) {
       const player = document.createElement("div");
       player.className = "player";
-      player.textContent = "📖";
+      player.textContent = "📚";
       div.appendChild(player);
     }
 
