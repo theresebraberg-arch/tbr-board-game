@@ -15,7 +15,7 @@ const colors = [
 const boardDiv = document.getElementById("board");
 const diceText = document.getElementById("diceText");
 
-/* SHUFFLE */
+/* 🔀 SHUFFLE */
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -25,6 +25,11 @@ function shuffle(array) {
 
 shuffle(board);
 
+/* 🎨 SPARA FÄRGER EN GÅNG */
+const cellColors = board.map(() => {
+  return colors[Math.floor(Math.random() * colors.length)];
+});
+
 function renderBoard() {
   boardDiv.innerHTML = "";
 
@@ -33,7 +38,8 @@ function renderBoard() {
     div.className = "cell";
     div.textContent = cell;
 
-    div.style.background = colors[Math.floor(Math.random() * colors.length)];
+    /* 👉 ANVÄND SPARAD FÄRG */
+    div.style.background = cellColors[index];
 
     if (index === position) {
       const player = document.createElement("div");
@@ -99,7 +105,6 @@ async function handleSquare() {
     square = board[position];
   }
 
-  /* RESULTAT VISAS HÄR ISTÄLLET */
   if (square === "TBR jar") {
     const book = tbrBooks[Math.floor(Math.random() * tbrBooks.length)];
     diceText.textContent = `📚 ${book}`;
