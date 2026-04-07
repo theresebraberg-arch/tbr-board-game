@@ -7,29 +7,30 @@
 </head>
 <body>
 
-<div class="topbar">
-  <h1>📚 TBR Board Game 🎲</h1>
+<h1>📚 TBR Board Game 🎲</h1>
 
-  <div id="dice">🎲</div>
-  <div id="diceText">Redo att spela</div>
+<div id="topArea">
 
-  <button onclick="rollDice()">🎲 Slå tärning</button>
+  <div id="diceArea">
+    <div id="dice">🎲</div>
+    <p id="diceText">Redo att spela</p>
+    <button onclick="rollDice()">🎲 Slå tärning</button>
+  </div>
+
+  <!-- ✨ TBR JAR -->
+  <div id="jarArea">
+    <div id="jar" onclick="drawFromJar()">
+      🫙
+    </div>
+    <p id="jarText">TBR Jar</p>
+  </div>
+
 </div>
 
-<div id="boardWrapper">
-  <div id="board"></div>
-</div>
+<div id="resultText"></div>
 
-<div id="overlay" class="hidden"></div>
-
-<div id="popup" class="hidden">
-  <h2>✨ Resultat ✨</h2>
-  <p id="popupContent"></p>
-  <button onclick="closePopup()">Stäng</button>
-</div>
-
-<script src="data.js"></script>
-<script src="script.js"></script>
+<div id="board"></div>
 
 </body>
+<script src="script.js"></script>
 </html>
