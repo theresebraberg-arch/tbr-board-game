@@ -15,6 +15,14 @@ const colors = [
 const boardDiv = document.getElementById("board");
 const diceText = document.getElementById("diceText");
 
+/* ➕ NY RAD FÖR RESULTAT */
+const resultText = document.createElement("div");
+resultText.style.marginTop = "5px";
+resultText.style.fontSize = "14px";
+resultText.style.color = "#4c1d95";
+
+diceText.after(resultText);
+
 /* SHUFFLE */
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -40,7 +48,10 @@ function renderBoard() {
 
     div.style.background = cellColors[index];
 
+    /* ✨ HIGHLIGHT NUVARANDE RUTA */
     if (index === position) {
+      div.style.boxShadow = "0 0 0 4px #9333ea";
+
       const player = document.createElement("div");
       player.className = "player";
       player.textContent = "📖";
@@ -57,8 +68,8 @@ async function rollDice() {
 
   let roll = Math.floor(Math.random() * 6) + 1;
 
-  /* 👇 VISAR BARA SLAGET */
   diceText.textContent = `🎲 Du slog: ${roll}`;
+  resultText.textContent = "";
 
   for (let i = 0; i < roll; i++) {
     await moveOneStep();
@@ -105,10 +116,12 @@ async function handleSquare() {
     square = board[position];
   }
 
-  /* 📚 TBR JAR – visas separat */
+  /* 👇 VISA RESULTAT SNYGGT */
   if (square === "TBR jar") {
     const book = tbrBooks[Math.floor(Math.random() * tbrBooks.length)];
-    console.log("TBR Jar:", book);
+    resultText.textContent = `📚 Du landade på TBR jar: ${book}`;
+  } else {
+    resultText.textContent = `📍 Du landade på: ${square}`;
   }
 }
 
