@@ -3,41 +3,51 @@ let isMoving = false;
 
 const boardDiv = document.getElementById("board");
 
+const size = 5;
+
+// 🧭 skapa snake path
+function createPath() {
+  let path = [];
+
+  for (let row = 0; row < size; row++) {
+    let rowArray = [];
+
+    for (let col = 0; col < size; col++) {
+      rowArray.push(row * size + col);
+    }
+
+    if (row % 2 === 1) {
+      rowArray.reverse();
+    }
+
+    path.push(...rowArray);
+  }
+
+  return path;
+}
+
+const path = createPath();
+
+// 🎨 rendera brädet
 function renderBoard() {
   boardDiv.innerHTML = "";
 
-  const size = 5;
+  board.forEach((cell, index) => {
+    const div = document.createElement("div");
+    div.className = "cell";
 
-  for (let row = 0; row < size; row++) {
-    let rowCells = [];
-
-    for (let col = 0; col < size; col++) {
-      let index = row * size + col;
-
-      // 🔁 varannan rad baklänges
-      if (row % 2 === 1) {
-        index = row * size + (size - 1 - col);
-      }
-
-      rowCells.push({ cell: board[index], index });
+    if (path[position] === index) {
+      div.innerHTML = "📖";
+      div.classList.add("active");
+    } else {
+      div.textContent = cell;
     }
 
-    rowCells.forEach(({ cell, index }) => {
-      const div = document.createElement("div");
-      div.className = "cell";
-
-      if (index === position) {
-        div.innerHTML = "📖";
-        div.classList.add("active");
-      } else {
-        div.textContent = cell;
-      }
-
-      boardDiv.appendChild(div);
-    });
-  }
+    boardDiv.appendChild(div);
+  });
 }
 
+// 🎲 slå tärning
 async function rollDice() {
   if (isMoving) return;
 
@@ -49,37 +59,27 @@ async function rollDice() {
     await moveOneStep();
   }
 
-  handleSquare(board[position]);
+  handleSquare(board[path[position]]);
   isMoving = false;
 }
 
+// 🚶 gå ett steg i taget
 function moveOneStep() {
   return new Promise(resolve => {
     setTimeout(() => {
       position++;
 
-      if (position >= board.length) {
+      if (position >= path.length) {
         position = 0;
       }
 
       renderBoard();
       resolve();
-    }, 300); // ← hastighet (kan ändras!)
+    }, 300);
   });
 }
 
-function rollDice() {
-  const roll = Math.floor(Math.random() * 6) + 1;
-  position += roll;
-
-  if (position >= board.length) {
-    position = position % board.length;
-  }
-
-  handleSquare(board[position]);
-  renderBoard();
-}
-
+// 🎯 hantera ruta
 function handleSquare(square) {
   let text = square;
 
@@ -88,18 +88,21 @@ function handleSquare(square) {
     text = "📚 TBR Jar:\n" + randomBook;
   }
 
-  if (square === "Back 1") position -= 1;
-  if (square === "Back 3") position -= 3;
-  if (square === "Forward 2") position += 2;
-  if (square === "Forward 3") position += 3;
+  if (square === "Back 1") position = Math.max(0, position - 1);
+  if (square === "Back 3") position = Math.max(0, position - 3);
+  if (square === "Forward 2") position = (position + 2) % path.length;
+  if (square === "Forward 3") position = (position + 3) % path.length;
 
   document.getElementById("popupContent").innerText = text;
   document.getElementById("popup").classList.remove("hidden");
-}
 
-function closePopup() {
-  document.getElementById("popup").classList.add("hidden");
   renderBoard();
 }
 
+// ❌ stäng popup
+function closePopup() {
+  document.getElementById("popup").classList.add("hidden");
+}
+
+// start
 renderBoard();
