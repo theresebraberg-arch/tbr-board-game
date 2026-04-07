@@ -5,21 +5,19 @@ const boardDiv = document.getElementById("board");
 const dice = document.getElementById("dice");
 const diceText = document.getElementById("diceText");
 const popupContent = document.getElementById("popupContent");
+const popup = document.getElementById("popup");
+const overlay = document.getElementById("overlay");
 
-// 🎲 dice faces
-const diceFaces = ["⚀","⚁","⚂","⚃","⚄","⚅"];
+const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
 
-// 🎨 render board
 function renderBoard() {
   boardDiv.innerHTML = "";
 
   board.forEach((cell, index) => {
     const div = document.createElement("div");
     div.className = "cell";
-
     div.textContent = cell;
 
-    // 📖 lägg spelpjäs ovanpå
     if (index === position) {
       const player = document.createElement("div");
       player.className = "player";
@@ -31,15 +29,14 @@ function renderBoard() {
   });
 }
 
-// 🎲 roll
 async function rollDice() {
   if (isMoving) return;
   isMoving = true;
 
   for (let i = 0; i < 8; i++) {
-    let temp = Math.floor(Math.random() * 6);
+    const temp = Math.floor(Math.random() * 6);
     dice.textContent = diceFaces[temp];
-    await new Promise(r => setTimeout(r, 80));
+    await new Promise(resolve => setTimeout(resolve, 80));
   }
 
   const roll = Math.floor(Math.random() * 6);
@@ -51,37 +48,38 @@ async function rollDice() {
   }
 
   handleSquare(board[position]);
-
   isMoving = false;
 }
 
-// 🚶 move
 function moveOneStep() {
   return new Promise(resolve => {
     setTimeout(() => {
       position++;
-      if (position >= board.length) position = 0;
+      if (position >= board.length) {
+        position = 0;
+      }
       renderBoard();
       resolve();
-    }, 250);
+    }, 180);
   });
 }
 
-// 🎯 square
 function handleSquare(square) {
   let text = square;
 
-  if (square === "TBR") {
+  if (square === "TBR jar") {
     const randomBook = tbrBooks[Math.floor(Math.random() * tbrBooks.length)];
-    text = "📚 " + randomBook;
+    text = `📚 TBR Jar:\n${randomBook}`;
   }
 
   popupContent.textContent = text;
-  document.getElementById("popup").classList.remove("hidden");
+  popup.classList.remove("hidden");
+  overlay.classList.remove("hidden");
 }
 
 function closePopup() {
-  document.getElementById("popup").classList.add("hidden");
+  popup.classList.add("hidden");
+  overlay.classList.add("hidden");
 }
 
 renderBoard();
