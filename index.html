@@ -2,32 +2,34 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TBR Board Game</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>📚 TBR Board Game 🎲</h1>
+  <h1>📚 TBR Board Game 🎲</h1>
 
-<div class="dice-area">
-  <div id="dice">🎲</div>
-  <div id="diceText">Redo att spela</div>
-</div>
+  <div class="dice-area">
+    <div id="dice">🎲</div>
+    <div id="diceText">Redo att spela</div>
+  </div>
 
-<div id="board"></div>
+  <div id="boardWrapper">
+    <div id="board"></div>
+  </div>
 
-<button onclick="rollDice()">🎲 Slå tärning</button>
+  <button onclick="rollDice()">🎲 Slå tärning</button>
 
-<div id="overlay" class="hidden"></div>
+  <div id="overlay" class="hidden"></div>
 
-<div id="popup" class="hidden">
-  <h2>✨ Resultat ✨</h2>
-  <p id="popupContent"></p>
-  <button onclick="closePopup()">Stäng</button>
-</div>
+  <div id="popup" class="hidden">
+    <h2>✨ Resultat ✨</h2>
+    <p id="popupContent"></p>
+    <button onclick="closePopup()">Stäng</button>
+  </div>
 
-<script src="data.js"></script>
-<script src="script.js"></script>
-
+  <script src="data.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
