@@ -1,20 +1,53 @@
 let position = 0;
+let isMoving = false;
 
 const boardDiv = document.getElementById("board");
 
 function renderBoard() {
   boardDiv.innerHTML = "";
+
   board.forEach((cell, index) => {
     const div = document.createElement("div");
     div.className = "cell";
 
     if (index === position) {
       div.innerHTML = "📖";
+      div.classList.add("active");
     } else {
       div.textContent = cell;
     }
 
     boardDiv.appendChild(div);
+  });
+}
+
+async function rollDice() {
+  if (isMoving) return;
+
+  isMoving = true;
+
+  const roll = Math.floor(Math.random() * 6) + 1;
+
+  for (let i = 0; i < roll; i++) {
+    await moveOneStep();
+  }
+
+  handleSquare(board[position]);
+  isMoving = false;
+}
+
+function moveOneStep() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      position++;
+
+      if (position >= board.length) {
+        position = 0;
+      }
+
+      renderBoard();
+      resolve();
+    }, 300); // ← hastighet (kan ändras!)
   });
 }
 
