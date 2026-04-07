@@ -5,9 +5,14 @@ const boardDiv = document.getElementById("board");
 const dice = document.getElementById("dice");
 const diceText = document.getElementById("diceText");
 
-// 🎲 riktiga tärningar
+const popup = document.getElementById("popup");
+const overlay = document.getElementById("overlay");
+const popupContent = document.getElementById("popupContent");
+
+// 🎲 dice faces
 const diceFaces = ["⚀","⚁","⚂","⚃","⚄","⚅"];
 
+// 🎨 render board
 function renderBoard() {
   boardDiv.innerHTML = "";
 
@@ -26,14 +31,13 @@ function renderBoard() {
   });
 }
 
+// 🎲 roll
 async function rollDice() {
   if (isMoving) return;
   isMoving = true;
 
-  dice.classList.add("roll");
-
-  // 🎲 animation
-  for (let i = 0; i < 10; i++) {
+  // animation
+  for (let i = 0; i < 8; i++) {
     let temp = Math.floor(Math.random() * 6);
     dice.textContent = diceFaces[temp];
     await new Promise(r => setTimeout(r, 80));
@@ -41,7 +45,6 @@ async function rollDice() {
 
   const roll = Math.floor(Math.random() * 6);
   dice.textContent = diceFaces[roll];
-
   diceText.textContent = `Du slog: ${roll + 1}`;
 
   for (let i = 0; i < roll + 1; i++) {
@@ -50,10 +53,10 @@ async function rollDice() {
 
   handleSquare(board[position]);
 
-  dice.classList.remove("roll");
   isMoving = false;
 }
 
+// 🚶 move
 function moveOneStep() {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -65,6 +68,7 @@ function moveOneStep() {
   });
 }
 
+// 🎯 square handler
 function handleSquare(square) {
   let text = square;
 
@@ -73,12 +77,25 @@ function handleSquare(square) {
     text = "📚 " + randomBook;
   }
 
-  document.getElementById("popupContent").innerText = text;
-  document.getElementById("popup").classList.remove("hidden");
+  popupContent.textContent = text;
+
+  overlay.classList.remove("hidden");
+  popup.classList.remove("hidden");
+
+  setTimeout(() => {
+    popup.classList.add("show");
+  }, 10);
 }
 
+// ❌ close popup
 function closePopup() {
-  document.getElementById("popup").classList.add("hidden");
+  popup.classList.remove("show");
+
+  setTimeout(() => {
+    popup.classList.add("hidden");
+    overlay.classList.add("hidden");
+  }, 200);
 }
 
+// start
 renderBoard();
