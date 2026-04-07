@@ -1,6 +1,26 @@
 let position = 0;
 let isMoving = false;
+let canUseJar = false;
 
+const boardDiv = document.getElementById("board");
+const diceText = document.getElementById("diceText");
+const resultText = document.getElementById("resultText");
+
+/* 📚 TBR BOOKS */
+const tbrBooks = [
+  "Fourth Wing",
+  "Iron Flame",
+  "Powerless",
+  "Reckless",
+  "The Housemaid",
+  "Twisted Love",
+  "Things We Never Got Over",
+  "A Court of Thorns and Roses",
+  "The Silent Patient",
+  "Icebreaker"
+];
+
+/* COLORS */
 const colors = [
   "#fbcfe8",
   "#bfdbfe",
@@ -12,31 +32,12 @@ const colors = [
   "#a7f3d0"
 ];
 
-const boardDiv = document.getElementById("board");
-const diceText = document.getElementById("diceText");
-
-/* ➕ NY RAD FÖR RESULTAT */
-const resultText = document.createElement("div");
-resultText.style.marginTop = "5px";
-resultText.style.fontSize = "14px";
-resultText.style.color = "#4c1d95";
-
-diceText.after(resultText);
-
-/* SHUFFLE */
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-
+/* BOARD */
 shuffle(board);
 
-/* SPARA FÄRGER */
-const cellColors = board.map(() => {
-  return colors[Math.floor(Math.random() * colors.length)];
-});
+const cellColors = board.map(() =>
+  colors[Math.floor(Math.random() * colors.length)]
+);
 
 function renderBoard() {
   boardDiv.innerHTML = "";
@@ -48,7 +49,6 @@ function renderBoard() {
 
     div.style.background = cellColors[index];
 
-    /* ✨ HIGHLIGHT NUVARANDE RUTA */
     if (index === position) {
       div.style.boxShadow = "0 0 0 4px #9333ea";
 
@@ -62,12 +62,19 @@ function renderBoard() {
   });
 }
 
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
 async function rollDice() {
   if (isMoving) return;
   isMoving = true;
+  canUseJar = false;
 
   let roll = Math.floor(Math.random() * 6) + 1;
-
   diceText.textContent = `🎲 Du slog: ${roll}`;
   resultText.textContent = "";
 
@@ -92,37 +99,27 @@ function moveOneStep() {
 }
 
 async function handleSquare() {
-
   let square = board[position];
 
-  while (true) {
-
-    if (square === "Back 1") position -= 1;
-    else if (square === "Back 3") position -= 3;
-    else if (square === "Forward 2") position += 2;
-    else if (square === "Forward 3") position += 3;
-    else if (square === "Slå igen") {
-      await rollDice();
-      return;
-    } else break;
-
-    if (position < 0) position = 0;
-    if (position >= board.length) position = board.length - 1;
-
-    renderBoard();
-
-    await new Promise(r => setTimeout(r, 300));
-
-    square = board[position];
-  }
-
-  /* 👇 VISA RESULTAT SNYGGT */
   if (square === "TBR jar") {
-    const book = tbrBooks[Math.floor(Math.random() * tbrBooks.length)];
-    resultText.textContent = `📚 Du landade på TBR jar: ${book}`;
+    resultText.textContent = "🫙 Klicka på burken!";
+    canUseJar = true;
   } else {
-    resultText.textContent = `📍 Du landade på: ${square}`;
+    resultText.textContent = `📍 ${square}`;
   }
+}
+
+/* 🫙 DRAW FROM JAR */
+function drawFromJar() {
+  if (!canUseJar) {
+    resultText.textContent = "❌ Du måste landa på TBR jar först!";
+    return;
+  }
+
+  const book = tbrBooks[Math.floor(Math.random() * tbrBooks.length)];
+
+  resultText.textContent = `📚 Du fick: ${book}`;
+  canUseJar = false;
 }
 
 renderBoard();
