@@ -86,13 +86,12 @@ h1 {
 
 #board {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(14, 1fr);
   gap: 16px;
   padding: 30px;
-  width: 100%;
-  max-width: 1600px;
+  width: 95%;
+  max-width: 1800px;
   margin: auto;
-  box-sizing: border-box;
 }
 
 .cell {
