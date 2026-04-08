@@ -1,3 +1,4 @@
+/* 🔁 HÄMTA SPARAD POSITION */
 let position = localStorage.getItem("tbr_position")
   ? parseInt(localStorage.getItem("tbr_position"))
   : 0;
@@ -5,8 +6,22 @@ let position = localStorage.getItem("tbr_position")
 let isMoving = false;
 let canUseJar = false;
 
-/* DATA (från data.js) */
-let gameBoard = [...board];
+/* 📦 HÄMTA / SKAPA BOARD */
+let savedBoard = localStorage.getItem("tbr_board");
+
+let gameBoard;
+
+if (savedBoard) {
+  gameBoard = JSON.parse(savedBoard);
+} else {
+  gameBoard = [...board];
+  shuffle(gameBoard);
+
+  /* 💾 SPARA BOARD */
+  localStorage.setItem("tbr_board", JSON.stringify(gameBoard));
+}
+
+/* 📚 BOOKS */
 let books = [...tbrBooks];
 
 const boardDiv = document.getElementById("board");
@@ -19,6 +34,21 @@ const colors = [
   "#ddd6fe","#fecaca","#fdba74","#a7f3d0"
 ];
 
+/* 🎨 SPARA FÄRGER OCKSÅ */
+let savedColors = localStorage.getItem("tbr_colors");
+
+let cellColors;
+
+if (savedColors) {
+  cellColors = JSON.parse(savedColors);
+} else {
+  cellColors = gameBoard.map(() =>
+    colors[Math.floor(Math.random() * colors.length)]
+  );
+
+  localStorage.setItem("tbr_colors", JSON.stringify(cellColors));
+}
+
 /* 🔀 SHUFFLE */
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -26,14 +56,6 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
-
-/* shuffle EN gång */
-shuffle(gameBoard);
-
-/* 🎨 färger */
-const cellColors = gameBoard.map(() =>
-  colors[Math.floor(Math.random() * colors.length)]
-);
 
 /* 🎲 RENDER */
 function renderBoard() {
@@ -86,7 +108,6 @@ function moveOneStep() {
       position++;
       if (position >= gameBoard.length) position = 0;
 
-      /* 💾 SPARA */
       localStorage.setItem("tbr_position", position);
 
       renderBoard();
@@ -107,7 +128,6 @@ async function handleSquare() {
   if (position < 0) position = 0;
   if (position >= gameBoard.length) position = gameBoard.length - 1;
 
-  /* 💾 SPARA */
   localStorage.setItem("tbr_position", position);
 
   renderBoard();
@@ -134,13 +154,18 @@ function drawFromJar() {
   canUseJar = false;
 }
 
-/* 🔄 RESET */
+/* 🔄 RESET (VIKTIGT: rensar ALLT) */
 function resetGame() {
   position = 0;
+
   localStorage.removeItem("tbr_position");
+  localStorage.removeItem("tbr_board");
+  localStorage.removeItem("tbr_colors");
+
   resultText.textContent = "🔄 Spelet återställt!";
   diceText.textContent = "Redo att spela";
-  renderBoard();
+
+  location.reload(); // laddar om med nytt bräde
 }
 
 /* START */
