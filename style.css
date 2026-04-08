@@ -14,7 +14,7 @@ h1 {
   letter-spacing: 1px;
 }
 
-/* ✨ HEADER PANEL */
+/* HEADER */
 #topArea {
   display: flex;
   justify-content: center;
@@ -27,10 +27,10 @@ h1 {
   padding: 25px;
   border-radius: 20px;
   backdrop-filter: blur(10px);
-  max-width: 700px;
+  max-width: 800px;
 }
 
-/* 🎲 KORT */
+/* DICE */
 #diceArea {
   background: rgba(255,255,255,0.5);
   padding: 22px;
@@ -39,13 +39,11 @@ h1 {
   box-shadow: 0 12px 30px rgba(0,0,0,0.1);
 }
 
-/* 🎲 TEXT */
 #diceText {
   font-size: 16px;
   margin: 10px 0;
 }
 
-/* 🎲 BUTTONS */
 #diceArea button {
   background: linear-gradient(135deg, #7c3aed, #a78bfa);
   color: white;
@@ -67,7 +65,7 @@ h1 {
   transform: scale(0.95);
 }
 
-/* 🫙 JAR */
+/* JAR */
 #jarArea {
   display: flex;
   flex-direction: column;
@@ -82,17 +80,15 @@ h1 {
 
 #jar:hover {
   transform: scale(1.2) rotate(-8deg);
-  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
 }
 
 #jarText {
   font-size: 14px;
   margin-top: 6px;
   color: #4c1d95;
-  font-weight: 500;
 }
 
-/* 📍 RESULT TEXT */
+/* RESULT */
 #resultText {
   height: 28px;
   margin-bottom: 10px;
@@ -101,40 +97,35 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
-  letter-spacing: 0.3px;
 }
 
-/* 💥 FIXEN ÄR HÄR */
+/* 💥 HÄR ÄR MAGIN */
 #board {
   display: grid;
 
-  /* 👇 fler rutor per rad */
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  /* 👇 Tvinga många kolumner */
+  grid-template-columns: repeat(10, 1fr);
 
   gap: 16px;
   padding: 30px;
 
-  /* 👇 tar hela bredden */
   width: 100%;
-  max-width: 1400px;
+  max-width: 1600px;
 
   margin: auto;
 }
 
-/* 🎨 RUTOR */
+/* RUTOR */
 .cell {
-  padding: 18px;
+  padding: 14px;
   border-radius: 18px;
-  min-height: 100px;
-  position: relative;
+  min-height: 80px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 12px;
 
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
   transition: 0.25s;
@@ -144,7 +135,7 @@ h1 {
   transform: translateY(-4px) scale(1.03);
 }
 
-/* ✨ AKTIV */
+/* AKTIV */
 .cell.active {
   transform: scale(1.08);
   box-shadow:
@@ -152,10 +143,10 @@ h1 {
     0 10px 25px rgba(147,51,234,0.4);
 }
 
-/* 📖 PJÄS */
+/* PJÄS */
 .player {
   position: absolute;
   top: 6px;
   right: 6px;
-  font-size: 20px;
+  font-size: 18px;
 }
