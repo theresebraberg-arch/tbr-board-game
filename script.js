@@ -13,6 +13,8 @@ if (savedPosition !== null) {
 
 /* 🎲 SKAPA BOARD */
 function createBoard() {
+  if (!board || !gameData) return;
+
   board.innerHTML = "";
   cells = [];
 
@@ -40,7 +42,9 @@ function createBoard() {
 function rollDice() {
   const roll = Math.floor(Math.random() * 6) + 1;
 
-  diceText.innerText = "🎲 Du slog: " + roll;
+  if (diceText) {
+    diceText.innerText = "🎲 Du slog: " + roll;
+  }
 
   position += roll;
 
@@ -61,12 +65,18 @@ function saveGame() {
 function resetGame() {
   position = 0;
   localStorage.removeItem("tbr-position");
-  diceText.innerText = "Redo att spela";
+
+  if (diceText) {
+    diceText.innerText = "Redo att spela";
+  }
+
   createBoard();
 }
 
 /* 🫙 TBR JAR */
 function drawFromJar() {
+  if (!jarBooks) return;
+
   const randomIndex = Math.floor(Math.random() * jarBooks.length);
   alert("📚 Du fick: " + jarBooks[randomIndex]);
 }
