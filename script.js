@@ -5,7 +5,7 @@ let position = localStorage.getItem("tbr_position")
 let isMoving = false;
 let canUseJar = false;
 
-/* BOARD */
+/* 📦 BOARD */
 const savedBoard = localStorage.getItem("tbr_board");
 let gameBoard;
 
@@ -17,13 +17,13 @@ if (savedBoard) {
   localStorage.setItem("tbr_board", JSON.stringify(gameBoard));
 }
 
-/* BOOKS */
+/* 📚 BOOKS */
 const books = [...tbrBooks];
 
 const boardDiv = document.getElementById("board");
 const diceText = document.getElementById("diceText");
 
-/* COLORS */
+/* 🎨 COLORS */
 const colors = [
   "#fbcfe8","#bfdbfe","#fde68a","#bbf7d0",
   "#ddd6fe","#fecaca","#fdba74","#a7f3d0"
@@ -41,7 +41,7 @@ if (savedColors) {
   localStorage.setItem("tbr_colors", JSON.stringify(cellColors));
 }
 
-/* SHUFFLE */
+/* 🔀 SHUFFLE */
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -49,7 +49,7 @@ function shuffle(array) {
   }
 }
 
-/* RENDER */
+/* 🎲 RENDER */
 function renderBoard() {
   boardDiv.innerHTML = "";
 
@@ -72,7 +72,7 @@ function renderBoard() {
   });
 }
 
-/* DICE */
+/* 🎲 DICE */
 async function rollDice() {
   if (isMoving) return;
 
@@ -90,12 +90,15 @@ async function rollDice() {
   isMoving = false;
 }
 
-/* MOVE */
+/* 🚶 MOVE */
 function moveOneStep() {
   return new Promise(resolve => {
     setTimeout(() => {
       position++;
-      if (position >= gameBoard.length) position = 0;
+
+      if (position >= gameBoard.length) {
+        position = 0;
+      }
 
       localStorage.setItem("tbr_position", position);
       renderBoard();
@@ -104,7 +107,7 @@ function moveOneStep() {
   });
 }
 
-/* LOGIK */
+/* 🧠 LOGIK */
 async function handleSquare() {
   let square = gameBoard[position];
 
@@ -121,14 +124,20 @@ async function handleSquare() {
 
   square = gameBoard[position];
 
-  if (square === "TBR jar") {
+  /* 🔥 FIX: robust TBR check */
+  if (square.toLowerCase().includes("tbr jar")) {
     canUseJar = true;
+  } else {
+    canUseJar = false;
   }
 }
 
 /* 🫙 JAR */
 function drawFromJar() {
-  if (!canUseJar) return;
+  if (!canUseJar) {
+    alert("Du måste landa på TBR jar först 😊");
+    return;
+  }
 
   const book = books[Math.floor(Math.random() * books.length)];
 
@@ -138,18 +147,27 @@ function drawFromJar() {
   canUseJar = false;
 }
 
+/* ❌ STÄNG POPUP */
 function closeJar() {
   document.getElementById("jarModal").classList.add("hidden");
 }
 
-/* RESET */
+/* 🔄 RESET */
 function resetGame() {
   position = 0;
+
   localStorage.removeItem("tbr_position");
   localStorage.removeItem("tbr_board");
   localStorage.removeItem("tbr_colors");
+
   location.reload();
 }
 
-/* START */
+/* 🔒 SÄKERHET: göm popup vid start */
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("jarModal");
+  if (modal) modal.classList.add("hidden");
+});
+
+/* 🚀 START */
 renderBoard();
