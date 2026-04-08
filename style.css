@@ -14,14 +14,20 @@ h1 {
   letter-spacing: 1px;
 }
 
-/* TOP AREA */
+/* ✨ HEADER PANEL */
 #topArea {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 40px;
-  margin: 20px;
+  gap: 50px;
+  margin: 30px auto;
   flex-wrap: wrap;
+
+  background: rgba(255,255,255,0.25);
+  padding: 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  max-width: 600px;
 }
 
 /* 🎲 KORT */
@@ -33,13 +39,13 @@ h1 {
   box-shadow: 0 12px 30px rgba(0,0,0,0.1);
 }
 
-/* TEXT */
+/* 🎲 TEXT */
 #diceText {
   font-size: 16px;
   margin: 10px 0;
 }
 
-/* BUTTON */
+/* 🎲 BUTTONS */
 #diceArea button {
   background: linear-gradient(135deg, #7c3aed, #a78bfa);
   color: white;
@@ -50,10 +56,15 @@ h1 {
   margin: 5px;
   font-weight: 600;
   transition: 0.2s;
+  box-shadow: 0 6px 15px rgba(124,58,237,0.4);
 }
 
 #diceArea button:hover {
   transform: scale(1.05);
+}
+
+#diceArea button:active {
+  transform: scale(0.95);
 }
 
 /* 🫙 JAR */
@@ -70,16 +81,18 @@ h1 {
 }
 
 #jar:hover {
-  transform: scale(1.2) rotate(-5deg);
+  transform: scale(1.2) rotate(-8deg);
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
 }
 
 #jarText {
   font-size: 14px;
   margin-top: 6px;
   color: #4c1d95;
+  font-weight: 500;
 }
 
-/* RESULT */
+/* 📍 RESULT TEXT */
 #resultText {
   height: 28px;
   margin-bottom: 10px;
@@ -88,9 +101,11 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 15px;
+  letter-spacing: 0.3px;
 }
 
-/* BOARD */
+/* 🎲 BOARD */
 #board {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
@@ -100,7 +115,7 @@ h1 {
   margin: auto;
 }
 
-/* RUTOR */
+/* 🎨 RUTOR */
 .cell {
   padding: 18px;
   border-radius: 18px;
@@ -119,15 +134,18 @@ h1 {
 }
 
 .cell:hover {
-  transform: scale(1.05);
+  transform: translateY(-4px) scale(1.03);
 }
 
-/* AKTIV */
+/* ✨ AKTIV RUTA */
 .cell.active {
-  box-shadow: 0 0 0 4px #9333ea, 0 8px 20px rgba(0,0,0,0.15);
+  transform: scale(1.08);
+  box-shadow:
+    0 0 0 4px #9333ea,
+    0 10px 25px rgba(147,51,234,0.4);
 }
 
-/* PJÄS */
+/* 📖 SPELPJÄS */
 .player {
   position: absolute;
   top: 6px;
