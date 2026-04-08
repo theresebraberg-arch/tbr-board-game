@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <title>TBR Board Game</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- FONTS -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
 <h1>📚 TBR Board Game 🎲</h1>
@@ -15,14 +18,13 @@
   <div id="diceArea">
     <div id="dice">🎲</div>
     <p id="diceText">Redo att spela</p>
+
     <button onclick="rollDice()">🎲 Slå tärning</button>
+    <button onclick="resetGame()">🔄 Börja om</button>
   </div>
 
-  <!-- ✨ TBR JAR -->
   <div id="jarArea">
-    <div id="jar" onclick="drawFromJar()">
-      🫙
-    </div>
+    <div id="jar" onclick="drawFromJar()">🫙</div>
     <p id="jarText">TBR Jar</p>
   </div>
 
@@ -32,7 +34,8 @@
 
 <div id="board"></div>
 
-</body>
 <script src="data.js"></script>
 <script src="script.js"></script>
+
+</body>
 </html>
