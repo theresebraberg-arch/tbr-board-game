@@ -1,22 +1,25 @@
-let position = 0;
+let position = localStorage.getItem("tbr_position")
+  ? parseInt(localStorage.getItem("tbr_position"))
+  : 0;
+
 let isMoving = false;
 let canUseJar = false;
 
-/* 👉 ANVÄNDER data.js */
-let gameBoard = [...board];   // kopia av board
+/* DATA */
+let gameBoard = [...board];
 let books = [...tbrBooks];
 
 const boardDiv = document.getElementById("board");
 const diceText = document.getElementById("diceText");
 const resultText = document.getElementById("resultText");
 
-/* 🎨 COLORS */
+/* COLORS */
 const colors = [
   "#fbcfe8","#bfdbfe","#fde68a","#bbf7d0",
   "#ddd6fe","#fecaca","#fdba74","#a7f3d0"
 ];
 
-/* 🔀 SHUFFLE */
+/* SHUFFLE */
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -24,15 +27,15 @@ function shuffle(array) {
   }
 }
 
-/* 👉 shuffle EN gång */
+/* shuffle EN gång */
 shuffle(gameBoard);
 
-/* 🎨 färger sparas */
+/* färger */
 const cellColors = gameBoard.map(() =>
   colors[Math.floor(Math.random() * colors.length)]
 );
 
-/* 🎲 RENDER */
+/* RENDER */
 function renderBoard() {
   boardDiv.innerHTML = "";
 
@@ -44,7 +47,7 @@ function renderBoard() {
     div.style.background = cellColors[index];
 
     if (index === position) {
-      div.style.boxShadow = "0 0 0 4px #9333ea";
+      div.classList.add("active");
 
       const player = document.createElement("div");
       player.className = "player";
@@ -76,18 +79,23 @@ async function rollDice() {
   isMoving = false;
 }
 
+/* MOVE */
 function moveOneStep() {
   return new Promise(resolve => {
     setTimeout(() => {
       position++;
       if (position >= gameBoard.length) position = 0;
+
+      /* 💾 SPARA VARJE STEG */
+      localStorage.setItem("tbr_position", position);
+
       renderBoard();
       resolve();
     }, 120);
   });
 }
 
-/* 🧠 LOGIK */
+/* LOGIK */
 async function handleSquare() {
   let square = gameBoard[position];
 
@@ -98,6 +106,9 @@ async function handleSquare() {
 
   if (position < 0) position = 0;
   if (position >= gameBoard.length) position = gameBoard.length - 1;
+
+  /* 💾 SPARA EFTER EFFEKT */
+  localStorage.setItem("tbr_position", position);
 
   renderBoard();
 
@@ -123,4 +134,5 @@ function drawFromJar() {
   canUseJar = false;
 }
 
+/* 🚀 START */
 renderBoard();
