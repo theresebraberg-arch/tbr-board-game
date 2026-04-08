@@ -5,7 +5,6 @@ body {
   margin: 0;
 }
 
-/* ✨ RUBRIK */
 h1 {
   margin-top: 25px;
   font-family: 'Cormorant Garamond', serif;
@@ -14,7 +13,6 @@ h1 {
   letter-spacing: 1px;
 }
 
-/* HEADER */
 #topArea {
   display: flex;
   justify-content: center;
@@ -22,25 +20,25 @@ h1 {
   gap: 50px;
   margin: 30px auto;
   flex-wrap: wrap;
-  background: rgba(255,255,255,0.25);
+  background: rgba(255, 255, 255, 0.25);
   padding: 25px;
   border-radius: 20px;
   backdrop-filter: blur(10px);
   max-width: 800px;
 }
 
-/* DICE */
 #diceArea {
-  background: rgba(255,255,255,0.5);
+  background: rgba(255, 255, 255, 0.5);
   padding: 22px;
   border-radius: 18px;
   backdrop-filter: blur(12px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
 }
 
 #diceText {
   font-size: 16px;
   margin: 10px 0;
+  min-height: 24px;
 }
 
 #diceArea button {
@@ -53,7 +51,7 @@ h1 {
   margin: 5px;
   font-weight: 600;
   transition: 0.2s;
-  box-shadow: 0 6px 15px rgba(124,58,237,0.4);
+  box-shadow: 0 6px 15px rgba(124, 58, 237, 0.4);
 }
 
 #diceArea button:hover {
@@ -64,7 +62,6 @@ h1 {
   transform: scale(0.95);
 }
 
-/* JAR */
 #jarArea {
   display: flex;
   flex-direction: column;
@@ -87,18 +84,6 @@ h1 {
   color: #4c1d95;
 }
 
-/* RESULT */
-#resultText {
-  height: 28px;
-  margin-bottom: 10px;
-  font-weight: 600;
-  color: #4c1d95;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* BOARD */
 #board {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -107,26 +92,23 @@ h1 {
   width: 100%;
   max-width: 1600px;
   margin: auto;
+  box-sizing: border-box;
 }
 
-/* RUTOR */
 .cell {
   padding: 16px;
   border-radius: 18px;
   min-height: 90px;
   position: relative;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-size: 14px;
   font-weight: 600;
   text-align: center;
   line-height: 1.2;
   word-break: break-word;
-
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   transition: 0.25s;
 }
 
@@ -134,10 +116,16 @@ h1 {
   transform: translateY(-4px) scale(1.03);
 }
 
-/* AKTIV */
 .cell.active {
   transform: scale(1.08);
   box-shadow:
     0 0 0 4px #9333ea,
-    0 10px 25px rgba(147,51,234,0.4);
+    0 10px 25px rgba(147, 51, 234, 0.4);
+}
+
+.player {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 18px;
 }
