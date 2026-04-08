@@ -141,11 +141,3 @@ h1 {
     0 0 0 4px #9333ea,
     0 10px 25px rgba(147,51,234,0.4);
 }
-
-/* PJÄS */
-.player {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  font-size: 18px;
-}
