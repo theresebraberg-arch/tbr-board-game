@@ -5,7 +5,7 @@ let position = localStorage.getItem("tbr_position")
 let isMoving = false;
 let canUseJar = false;
 
-/* DATA */
+/* DATA (från data.js) */
 let gameBoard = [...board];
 let books = [...tbrBooks];
 
@@ -13,13 +13,13 @@ const boardDiv = document.getElementById("board");
 const diceText = document.getElementById("diceText");
 const resultText = document.getElementById("resultText");
 
-/* COLORS */
+/* 🎨 COLORS */
 const colors = [
   "#fbcfe8","#bfdbfe","#fde68a","#bbf7d0",
   "#ddd6fe","#fecaca","#fdba74","#a7f3d0"
 ];
 
-/* SHUFFLE */
+/* 🔀 SHUFFLE */
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -30,12 +30,12 @@ function shuffle(array) {
 /* shuffle EN gång */
 shuffle(gameBoard);
 
-/* färger */
+/* 🎨 färger */
 const cellColors = gameBoard.map(() =>
   colors[Math.floor(Math.random() * colors.length)]
 );
 
-/* RENDER */
+/* 🎲 RENDER */
 function renderBoard() {
   boardDiv.innerHTML = "";
 
@@ -86,7 +86,7 @@ function moveOneStep() {
       position++;
       if (position >= gameBoard.length) position = 0;
 
-      /* 💾 SPARA VARJE STEG */
+      /* 💾 SPARA */
       localStorage.setItem("tbr_position", position);
 
       renderBoard();
@@ -95,7 +95,7 @@ function moveOneStep() {
   });
 }
 
-/* LOGIK */
+/* 🧠 LOGIK */
 async function handleSquare() {
   let square = gameBoard[position];
 
@@ -107,7 +107,7 @@ async function handleSquare() {
   if (position < 0) position = 0;
   if (position >= gameBoard.length) position = gameBoard.length - 1;
 
-  /* 💾 SPARA EFTER EFFEKT */
+  /* 💾 SPARA */
   localStorage.setItem("tbr_position", position);
 
   renderBoard();
@@ -134,5 +134,14 @@ function drawFromJar() {
   canUseJar = false;
 }
 
-/* 🚀 START */
+/* 🔄 RESET */
+function resetGame() {
+  position = 0;
+  localStorage.removeItem("tbr_position");
+  resultText.textContent = "🔄 Spelet återställt!";
+  diceText.textContent = "Redo att spela";
+  renderBoard();
+}
+
+/* START */
 renderBoard();
