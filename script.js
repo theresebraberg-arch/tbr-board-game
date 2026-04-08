@@ -3,7 +3,6 @@ let position = localStorage.getItem("tbr_position")
   : 0;
 
 let isMoving = false;
-let canUseJar = false;
 
 /* 📦 BOARD */
 const savedBoard = localStorage.getItem("tbr_board");
@@ -77,7 +76,6 @@ async function rollDice() {
   if (isMoving) return;
 
   isMoving = true;
-  canUseJar = false;
 
   const roll = Math.floor(Math.random() * 6) + 1;
   diceText.textContent = `🎲 Du slog: ${roll}`;
@@ -121,20 +119,13 @@ async function handleSquare() {
 
   localStorage.setItem("tbr_position", position);
   renderBoard();
-
-  square = gameBoard[position];
-
-  /* 🔥 FIX: robust TBR check */
-  if (square.toLowerCase().includes("tbr jar")) {
-    canUseJar = true;
-  } else {
-    canUseJar = false;
-  }
 }
 
-/* 🫙 JAR */
+/* 🫙 TBR JAR – FIXAD */
 function drawFromJar() {
-  if (!canUseJar) {
+  const currentSquare = gameBoard[position];
+
+  if (!currentSquare.toLowerCase().includes("tbr jar")) {
     alert("Du måste landa på TBR jar först 😊");
     return;
   }
@@ -143,8 +134,6 @@ function drawFromJar() {
 
   document.getElementById("jarBook").textContent = book;
   document.getElementById("jarModal").classList.remove("hidden");
-
-  canUseJar = false;
 }
 
 /* ❌ STÄNG POPUP */
@@ -163,7 +152,7 @@ function resetGame() {
   location.reload();
 }
 
-/* 🔒 SÄKERHET: göm popup vid start */
+/* 🔒 SÄKER START */
 document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("jarModal");
   if (modal) modal.classList.add("hidden");
