@@ -19,9 +19,13 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 50px;
-  margin: 20px;
-  flex-wrap: wrap; /* gör att det funkar på mindre skärmar */
+  gap: 40px;
+  margin: 20px auto;
+  padding: 15px 25px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 20px;
+  width: fit-content;
+  backdrop-filter: blur(8px);
 }
 
 /* 🎲 KNAPP */
@@ -30,11 +34,12 @@ h1 {
   color: white;
   border: none;
   padding: 10px 18px;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(124,58,237,0.4);
 }
 
 #diceArea button:hover {
@@ -50,35 +55,43 @@ h1 {
 }
 
 #jar {
-  font-size: 50px;
+  font-size: 55px;
   cursor: pointer;
+  padding: 10px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   transition: transform 0.2s ease;
 }
 
 #jar:hover {
-  transform: scale(1.2) rotate(5deg);
+  transform: scale(1.15) rotate(5deg);
 }
 
 #jarText {
   font-size: 14px;
   margin-top: 5px;
-  font-family: 'Poppins', sans-serif;
 }
 
 /* 📍 RESULT TEXT */
 #resultText {
   margin-bottom: 10px;
-  font-weight: 500;
+  font-weight: 600;
   color: #4c1d95;
-  font-family: 'Poppins', sans-serif;
 }
 
-/* 🎯 BOARD */
+/* 🎯 BOARD CONTAINER (STOR FIX) */
 #board {
+  max-width: 1100px;
+  margin: 20px auto;
+  background: rgba(255,255,255,0.25);
+  padding: 20px;
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-  padding: 20px;
+  gap: 12px;
 }
 
 /* 🟪 RUTOR */
@@ -93,18 +106,32 @@ h1 {
   justify-content: center;
   text-align: center;
 
-  font-family: 'Poppins', sans-serif;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.2;
 
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* ✨ HOVER EFFECT */
+/* 📌 POST-IT LOOK */
+.cell:nth-child(odd) {
+  transform: rotate(-1deg);
+}
+
+.cell:nth-child(even) {
+  transform: rotate(1deg);
+}
+
+/* ✨ HOVER */
 .cell:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: scale(1.05) rotate(0deg);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* 🔥 AKTIV RUTA */
+.cell.active {
+  box-shadow: 0 0 15px rgba(147,51,234,0.7);
+  transform: scale(1.08) rotate(0deg);
 }
 
 /* 📖 SPELPJÄS */
@@ -115,7 +142,7 @@ h1 {
   font-size: 18px;
 }
 
-/* 📱 RESPONSIVE (viktig för laptop!) */
+/* 📱 RESPONSIVE */
 @media (max-width: 900px) {
   .cell {
     min-height: 60px;
