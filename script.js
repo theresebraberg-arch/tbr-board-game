@@ -5,7 +5,7 @@ let position = localStorage.getItem("tbr_position")
 let isMoving = false;
 let canUseJar = false;
 
-/* 📦 HÄMTA / SKAPA BOARD */
+/* BOARD */
 const savedBoard = localStorage.getItem("tbr_board");
 let gameBoard;
 
@@ -17,46 +17,39 @@ if (savedBoard) {
   localStorage.setItem("tbr_board", JSON.stringify(gameBoard));
 }
 
-/* 📚 BOOKS */
+/* BOOKS */
 const books = [...tbrBooks];
 
 const boardDiv = document.getElementById("board");
 const diceText = document.getElementById("diceText");
 
-/* 🎨 COLORS */
+/* COLORS */
 const colors = [
-  "#fbcfe8",
-  "#bfdbfe",
-  "#fde68a",
-  "#bbf7d0",
-  "#ddd6fe",
-  "#fecaca",
-  "#fdba74",
-  "#a7f3d0"
+  "#fbcfe8","#bfdbfe","#fde68a","#bbf7d0",
+  "#ddd6fe","#fecaca","#fdba74","#a7f3d0"
 ];
 
-/* 🎨 SPARA FÄRGER */
 const savedColors = localStorage.getItem("tbr_colors");
 let cellColors;
 
 if (savedColors) {
   cellColors = JSON.parse(savedColors);
 } else {
-  cellColors = gameBoard.map(
-    () => colors[Math.floor(Math.random() * colors.length)]
+  cellColors = gameBoard.map(() =>
+    colors[Math.floor(Math.random() * colors.length)]
   );
   localStorage.setItem("tbr_colors", JSON.stringify(cellColors));
 }
 
-/* 🔀 SHUFFLE */
+/* SHUFFLE */
 function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i -= 1) {
+  for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
 
-/* 🎲 RENDER */
+/* RENDER */
 function renderBoard() {
   boardDiv.innerHTML = "";
 
@@ -79,7 +72,7 @@ function renderBoard() {
   });
 }
 
-/* 🎲 DICE */
+/* DICE */
 async function rollDice() {
   if (isMoving) return;
 
@@ -89,24 +82,20 @@ async function rollDice() {
   const roll = Math.floor(Math.random() * 6) + 1;
   diceText.textContent = `🎲 Du slog: ${roll}`;
 
-  for (let i = 0; i < roll; i += 1) {
+  for (let i = 0; i < roll; i++) {
     await moveOneStep();
   }
 
   await handleSquare();
-
   isMoving = false;
 }
 
 /* MOVE */
 function moveOneStep() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
-      position += 1;
-
-      if (position >= gameBoard.length) {
-        position = 0;
-      }
+      position++;
+      if (position >= gameBoard.length) position = 0;
 
       localStorage.setItem("tbr_position", position);
       renderBoard();
@@ -115,7 +104,7 @@ function moveOneStep() {
   });
 }
 
-/* 🧠 LOGIK */
+/* LOGIK */
 async function handleSquare() {
   let square = gameBoard[position];
 
@@ -139,16 +128,21 @@ async function handleSquare() {
 
 /* 🫙 JAR */
 function drawFromJar() {
-  if (!canUseJar) {
-    return;
-  }
+  if (!canUseJar) return;
 
   const book = books[Math.floor(Math.random() * books.length)];
-  diceText.textContent = `📚 ${book}`;
+
+  document.getElementById("jarBook").textContent = book;
+  document.getElementById("jarModal").classList.remove("hidden");
+
   canUseJar = false;
 }
 
-/* 🔄 RESET */
+function closeJar() {
+  document.getElementById("jarModal").classList.add("hidden");
+}
+
+/* RESET */
 function resetGame() {
   position = 0;
   localStorage.removeItem("tbr_position");
