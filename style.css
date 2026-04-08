@@ -1,5 +1,5 @@
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Quicksand', sans-serif;
   text-align: center;
   background: linear-gradient(to bottom, #e9d5ff, #d8b4fe);
   margin: 0;
@@ -8,8 +8,8 @@ body {
 /* ✨ RUBRIK */
 h1 {
   margin-top: 25px;
-  font-family: 'Playfair Display', serif;
-  font-size: 38px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
   color: #3b0764;
   letter-spacing: 1px;
 }
@@ -24,23 +24,22 @@ h1 {
   flex-wrap: wrap;
 }
 
-/* 🎲 KORTET */
+/* 🎲 KORT */
 #diceArea {
   background: rgba(255,255,255,0.5);
   padding: 22px;
   border-radius: 18px;
   backdrop-filter: blur(12px);
   box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-  min-width: 200px;
 }
 
-/* 🎲 TEXT */
+/* TEXT */
 #diceText {
   font-size: 16px;
   margin: 10px 0;
 }
 
-/* BUTTONS */
+/* BUTTON */
 #diceArea button {
   background: linear-gradient(135deg, #7c3aed, #a78bfa);
   color: white;
@@ -78,10 +77,9 @@ h1 {
   font-size: 14px;
   margin-top: 6px;
   color: #4c1d95;
-  font-weight: 500;
 }
 
-/* 📍 RESULT TEXT (fixad så den inte hoppar) */
+/* RESULT */
 #resultText {
   height: 28px;
   margin-bottom: 10px;
@@ -124,12 +122,12 @@ h1 {
   transform: scale(1.05);
 }
 
-/* AKTIV RUTA */
+/* AKTIV */
 .cell.active {
   box-shadow: 0 0 0 4px #9333ea, 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* SPELPJÄS */
+/* PJÄS */
 .player {
   position: absolute;
   top: 6px;
