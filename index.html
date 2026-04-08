@@ -5,44 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TBR Board Game</title>
   <link rel="stylesheet" href="style.css">
-
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<h1>📚 TBR Board Game 🎲</h1>
+  <h1>📚 TBR Board Game 🎲</h1>
 
-<div id="topArea">
+  <div id="topArea">
+    <div id="diceArea">
+      <div id="dice">🎲</div>
+      <p id="diceText">Redo att spela</p>
+      <button onclick="rollDice()">🎲 Slå tärning</button>
+      <button onclick="resetGame()">🔄 Börja om</button>
+    </div>
 
-  <div id="diceArea">
-    <div id="dice">🎲</div>
-    <p id="diceText">Redo att spela</p>
-
-    <button onclick="rollDice()">🎲 Slå tärning</button>
-    <button onclick="resetGame()">🔄 Börja om</button>
+    <div id="jarArea">
+      <div id="jar" onclick="drawFromJar()">🫙</div>
+      <p id="jarText">TBR Jar</p>
+    </div>
   </div>
 
-  <div id="jarArea">
-    <div id="jar" onclick="drawFromJar()">🫙</div>
-    <p id="jarText">TBR Jar</p>
+  <div id="board"></div>
+
+  <div id="jarModal" class="hidden" aria-hidden="true">
+    <div class="jar-card">
+      <h2>📚 Din bok</h2>
+      <p id="jarBook"></p>
+      <button type="button" onclick="closeJar()">Stäng</button>
+    </div>
   </div>
 
-</div>
-
-<div id="board"></div>
-
-<!-- 🫙 POPUP -->
-<div id="jarModal" class="hidden">
-  <div class="jar-card">
-    <h2>📚 Din bok</h2>
-    <p id="jarBook"></p>
-    <button onclick="closeJar()">Stäng</button>
-  </div>
-</div>
-
-<script src="data.js"></script>
-<script src="script.js"></script>
-
+  <script src="data.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
