@@ -2,28 +2,9 @@ let position = 0;
 let isMoving = false;
 let canUseJar = false;
 
-/* 🧠 BOARD */
-let board = [
-  "Free pick","Romance","TBR jar","Fantasy","Back 1","Enemies to lovers",
-  "Forward 2","Thriller","Color","Fantasy","Back 3",
-  "Sports romance","TBR","5 star prediction","Forward 3","Stand alone",
-  "TBR jar","Grumpy sunshine","Spinner","Under 300 pages","500+ pages",
-  "New author","Series","Cozy read","TBR","Free pick"
-];
-
-/* 📚 BOOKS */
-const tbrBooks = [
-  "Fourth Wing",
-  "Iron Flame",
-  "Powerless",
-  "Reckless",
-  "The Housemaid",
-  "Twisted Love",
-  "Things We Never Got Over",
-  "ACOTAR",
-  "The Silent Patient",
-  "Icebreaker"
-];
+/* 👉 ANVÄNDER data.js */
+let gameBoard = [...board];   // kopia av board
+let books = [...tbrBooks];
 
 const boardDiv = document.getElementById("board");
 const diceText = document.getElementById("diceText");
@@ -35,7 +16,19 @@ const colors = [
   "#ddd6fe","#fecaca","#fdba74","#a7f3d0"
 ];
 
-const cellColors = board.map(() =>
+/* 🔀 SHUFFLE */
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+/* 👉 shuffle EN gång */
+shuffle(gameBoard);
+
+/* 🎨 färger sparas */
+const cellColors = gameBoard.map(() =>
   colors[Math.floor(Math.random() * colors.length)]
 );
 
@@ -43,10 +36,11 @@ const cellColors = board.map(() =>
 function renderBoard() {
   boardDiv.innerHTML = "";
 
-  board.forEach((cell, index) => {
+  gameBoard.forEach((cell, index) => {
     const div = document.createElement("div");
     div.className = "cell";
     div.textContent = cell;
+
     div.style.background = cellColors[index];
 
     if (index === position) {
@@ -86,7 +80,7 @@ function moveOneStep() {
   return new Promise(resolve => {
     setTimeout(() => {
       position++;
-      if (position >= board.length) position = 0;
+      if (position >= gameBoard.length) position = 0;
       renderBoard();
       resolve();
     }, 120);
@@ -95,7 +89,7 @@ function moveOneStep() {
 
 /* 🧠 LOGIK */
 async function handleSquare() {
-  let square = board[position];
+  let square = gameBoard[position];
 
   if (square === "Back 1") position -= 1;
   if (square === "Back 3") position -= 3;
@@ -103,11 +97,11 @@ async function handleSquare() {
   if (square === "Forward 3") position += 3;
 
   if (position < 0) position = 0;
-  if (position >= board.length) position = board.length - 1;
+  if (position >= gameBoard.length) position = gameBoard.length - 1;
 
   renderBoard();
 
-  square = board[position];
+  square = gameBoard[position];
 
   if (square === "TBR jar") {
     resultText.textContent = "🫙 Klicka på burken!";
@@ -124,7 +118,7 @@ function drawFromJar() {
     return;
   }
 
-  const book = tbrBooks[Math.floor(Math.random() * tbrBooks.length)];
+  const book = books[Math.floor(Math.random() * books.length)];
   resultText.textContent = `📚 ${book}`;
   canUseJar = false;
 }
