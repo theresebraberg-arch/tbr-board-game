@@ -1,85 +1,346 @@
-let position = 0;
+/* 🔁 HÄMTA SPARAD POSITION */
+let position = localStorage.getItem("tbr_position")
+  ? parseInt(localStorage.getItem("tbr_position"))
+  : 0;
 
-const board = document.getElementById("board");
-const diceText = document.getElementById("diceText");
+let isMoving = false;
+let canUseJar = false;
 
-let cells = [];
+/* 📦 HÄMTA / SKAPA BOARD */
+let savedBoard = localStorage.getItem("tbr_board");
 
-/* 🔥 LADDA SPARAD POSITION */
-const savedPosition = localStorage.getItem("tbr-position");
-if (savedPosition !== null) {
-  position = parseInt(savedPosition);
+let gameBoard;
+
+if (savedBoard) {
+  gameBoard = JSON.parse(savedBoard);
+} else {
+  gameBoard = [...board];
+  shuffle(gameBoard);
+
+  /* 💾 SPARA BOARD */
+  localStorage.setItem("tbr_board", JSON.stringify(gameBoard));
 }
 
-/* 🎲 SKAPA BOARD */
-function createBoard() {
-  if (!board || !gameData) return;
+/* 📚 BOOKS */
+let books = [...tbrBooks];
 
-  board.innerHTML = "";
-  cells = [];
+const boardDiv = document.getElementById("board");
+const diceText = document.getElementById("diceText");
+const resultText = document.getElementById("resultText");
 
-  gameData.forEach((item, index) => {
-    const cell = document.createElement("div");
-    cell.classList.add("cell");
-    cell.textContent = item.text;
-    cell.style.background = item.color;
+/* 🎨 COLORS */
+const colors = [
+  "#fbcfe8","#bfdbfe","#fde68a","#bbf7d0",
+  "#ddd6fe","#fecaca","#fdba74","#a7f3d0"
+];
+
+/* 🎨 SPARA FÄRGER OCKSÅ */
+let savedColors = localStorage.getItem("tbr_colors");
+
+let cellColors;
+
+if (savedColors) {
+  cellColors = JSON.parse(savedColors);
+} else {
+  cellColors = gameBoard.map(() =>
+    colors[Math.floor(Math.random() * colors.length)]
+  );
+
+  localStorage.setItem("tbr_colors", JSON.stringify(cellColors));
+}
+
+/* 🔀 SHUFFLE */
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+/* 🎲 RENDER */
+function renderBoard() {
+  boardDiv.innerHTML = "";
+
+  gameBoard.forEach((cell, index) => {
+    const div = document.createElement("div");
+    div.className = "cell";
+    div.textContent = cell;
+
+    div.style.background = cellColors[index];
 
     if (index === position) {
-      cell.classList.add("active");
+      div.classList.add("active");
 
       const player = document.createElement("div");
-      player.classList.add("player");
+      player.className = "player";
       player.textContent = "📖";
-      cell.appendChild(player);
+      div.appendChild(player);
     }
 
-    board.appendChild(cell);
-    cells.push(cell);
+    boardDiv.appendChild(div);
   });
 }
 
-/* 🎲 SLÅ TÄRNING */
-function rollDice() {
-  const roll = Math.floor(Math.random() * 6) + 1;
+/* 🎲 DICE */
+async function rollDice() {
+  if (isMoving) return;
 
-  if (diceText) {
-    diceText.innerText = "🎲 Du slog: " + roll;
+  isMoving = true;
+  canUseJar = false;
+
+  let roll = Math.floor(Math.random() * 6) + 1;
+  diceText.textContent = `🎲 Du slog: ${roll}`;
+  resultText.textContent = "";
+
+  for (let i = 0; i < roll; i++) {
+    await moveOneStep();
   }
 
-  position += roll;
+  await handleSquare();
 
-  if (position >= gameData.length) {
-    position = gameData.length - 1;
+  isMoving = false;
+}
+
+/* MOVE */
+function moveOneStep() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      position++;
+      if (position >= gameBoard.length) position = 0;
+
+      localStorage.setItem("tbr_position", position);
+
+      renderBoard();
+      resolve();
+    }, 120);
+  });
+}
+
+/* 🧠 LOGIK */
+async function handleSquare() {
+  let square = gameBoard[position];
+
+  if (square === "Back 1") position -= 1;
+  if (square === "Back 3") position -= 3;
+  if (square === "Forward 2") position += 2;
+  if (square === "Forward 3") position += 3;
+
+  if (position < 0) position = 0;
+  if (position >= gameBoard.length) position = gameBoard.length - 1;
+
+  localStorage.setItem("tbr_position", position);
+
+  renderBoard();
+
+  square = gameBoard[position];
+
+  if (square === "TBR jar") {
+    resultText.textContent = "🫙 Klicka på burken!";
+    canUseJar = true;
+  } else {
+    resultText.textContent = `📍 ${square}`;
+  }
+}
+
+/* 🫙 JAR */
+function drawFromJar() {
+  if (!canUseJar) {
+    resultText.textContent = "❌ Du måste landa på TBR jar först!";
+    return;
   }
 
-  saveGame();
-  createBoard();
+  const book = books[Math.floor(Math.random() * books.length)];
+  resultText.textContent = `📚 ${book}`;
+  canUseJar = false;
 }
 
-/* 💾 SPARA */
-function saveGame() {
-  localStorage.setItem("tbr-position", position);
-}
-
-/* 🔄 RESET */
+/* 🔄 RESET (VIKTIGT: rensar ALLT) */
 function resetGame() {
   position = 0;
-  localStorage.removeItem("tbr-position");
 
-  if (diceText) {
-    diceText.innerText = "Redo att spela";
-  }
+  localStorage.removeItem("tbr_position");
+  localStorage.removeItem("tbr_board");
+  localStorage.removeItem("tbr_colors");
 
-  createBoard();
-}
+  resultText.textContent = "🔄 Spelet återställt!";
+  diceText.textContent = "Redo att spela";
 
-/* 🫙 TBR JAR */
-function drawFromJar() {
-  if (!jarBooks) return;
-
-  const randomIndex = Math.floor(Math.random() * jarBooks.length);
-  alert("📚 Du fick: " + jarBooks[randomIndex]);
+  location.reload(); // laddar om med nytt bräde
 }
 
 /* START */
-createBoard();
+renderBoard();
+
+index.html
+/* 🔁 HÄMTA SPARAD POSITION */
+let position = localStorage.getItem("tbr_position")
+  ? parseInt(localStorage.getItem("tbr_position"))
+  : 0;
+
+let isMoving = false;
+let canUseJar = false;
+
+/* 📦 HÄMTA / SKAPA BOARD */
+let savedBoard = localStorage.getItem("tbr_board");
+
+let gameBoard;
+
+if (savedBoard) {
+  gameBoard = JSON.parse(savedBoard);
+} else {
+  gameBoard = [...board];
+  shuffle(gameBoard);
+
+  /* 💾 SPARA BOARD */
+  localStorage.setItem("tbr_board", JSON.stringify(gameBoard));
+}
+
+/* 📚 BOOKS */
+let books = [...tbrBooks];
+
+const boardDiv = document.getElementById("board");
+const diceText = document.getElementById("diceText");
+const resultText = document.getElementById("resultText");
+
+/* 🎨 COLORS */
+const colors = [
+  "#fbcfe8","#bfdbfe","#fde68a","#bbf7d0",
+  "#ddd6fe","#fecaca","#fdba74","#a7f3d0"
+];
+
+/* 🎨 SPARA FÄRGER OCKSÅ */
+let savedColors = localStorage.getItem("tbr_colors");
+
+let cellColors;
+
+if (savedColors) {
+  cellColors = JSON.parse(savedColors);
+} else {
+  cellColors = gameBoard.map(() =>
+    colors[Math.floor(Math.random() * colors.length)]
+  );
+
+  localStorage.setItem("tbr_colors", JSON.stringify(cellColors));
+}
+
+/* 🔀 SHUFFLE */
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+/* 🎲 RENDER */
+function renderBoard() {
+  boardDiv.innerHTML = "";
+
+  gameBoard.forEach((cell, index) => {
+    const div = document.createElement("div");
+    div.className = "cell";
+    div.textContent = cell;
+
+    div.style.background = cellColors[index];
+
+    if (index === position) {
+      div.classList.add("active");
+
+      const player = document.createElement("div");
+      player.className = "player";
+      player.textContent = "📖";
+      div.appendChild(player);
+    }
+
+    boardDiv.appendChild(div);
+  });
+}
+
+/* 🎲 DICE */
+async function rollDice() {
+  if (isMoving) return;
+
+  isMoving = true;
+  canUseJar = false;
+
+  let roll = Math.floor(Math.random() * 6) + 1;
+  diceText.textContent = `🎲 Du slog: ${roll}`;
+  resultText.textContent = "";
+
+  for (let i = 0; i < roll; i++) {
+    await moveOneStep();
+  }
+
+  await handleSquare();
+
+  isMoving = false;
+}
+
+/* MOVE */
+function moveOneStep() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      position++;
+      if (position >= gameBoard.length) position = 0;
+
+      localStorage.setItem("tbr_position", position);
+
+      renderBoard();
+      resolve();
+    }, 120);
+  });
+}
+
+/* 🧠 LOGIK */
+async function handleSquare() {
+  let square = gameBoard[position];
+
+  if (square === "Back 1") position -= 1;
+  if (square === "Back 3") position -= 3;
+  if (square === "Forward 2") position += 2;
+  if (square === "Forward 3") position += 3;
+
+  if (position < 0) position = 0;
+  if (position >= gameBoard.length) position = gameBoard.length - 1;
+
+  localStorage.setItem("tbr_position", position);
+
+  renderBoard();
+
+  square = gameBoard[position];
+
+  if (square === "TBR jar") {
+    resultText.textContent = "🫙 Klicka på burken!";
+    canUseJar = true;
+  } else {
+    resultText.textContent = `📍 ${square}`;
+  }
+}
+
+/* 🫙 JAR */
+function drawFromJar() {
+  if (!canUseJar) {
+    resultText.textContent = "❌ Du måste landa på TBR jar först!";
+    return;
+  }
+
+  const book = books[Math.floor(Math.random() * books.length)];
+  resultText.textContent = `📚 ${book}`;
+  canUseJar = false;
+}
+
+/* 🔄 RESET (VIKTIGT: rensar ALLT) */
+function resetGame() {
+  position = 0;
+
+  localStorage.removeItem("tbr_position");
+  localStorage.removeItem("tbr_board");
+  localStorage.removeItem("tbr_colors");
+
+  resultText.textContent = "🔄 Spelet återställt!";
+  diceText.textContent = "Redo att spela";
+
+  location.reload(); // laddar om med nytt bräde
+}
+
+/* START */
+renderBoard();
