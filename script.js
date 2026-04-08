@@ -102,7 +102,7 @@ function moveOneStep() {
       localStorage.setItem("tbr_position", position);
       renderBoard();
       resolve();
-    }, 120);
+    }, 250);
   });
 }
 
