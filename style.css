@@ -41,6 +41,21 @@ h1 {
 #jar {
   font-size: 40px;
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+/* ✨ HOVER ANIMATION */
+#jar:hover {
+  animation: jarWiggle 0.4s ease;
+}
+
+/* 💃 ANIMATION */
+@keyframes jarWiggle {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-8deg) scale(1.1); }
+  50% { transform: rotate(8deg) scale(1.15); }
+  75% { transform: rotate(-4deg) scale(1.1); }
+  100% { transform: rotate(0deg) scale(1); }
 }
 
 /* 🟪 BOARD (RESPONSIVE FIX) */
