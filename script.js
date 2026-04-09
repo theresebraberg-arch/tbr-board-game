@@ -134,6 +134,28 @@ function drawFromJar() {
   const modal = document.getElementById("jarModal");
   const bookEl = document.getElementById("jarBook");
 
+  // Visa modal
+  modal.classList.remove("hidden");
+
+  // 🔥 FIXEN ÄR HÄR
+  bookEl.classList.remove("hidden");
+
+  // Reset
+  bookEl.classList.remove("show");
+  bookEl.textContent = "✨ Drar din bok...";
+
+  // Reveal
+  setTimeout(() => {
+    bookEl.textContent = book;
+    bookEl.classList.add("show");
+  }, 400);
+}
+
+  const book = books[Math.floor(Math.random() * books.length)];
+
+  const modal = document.getElementById("jarModal");
+  const bookEl = document.getElementById("jarBook");
+
   // Visa modal direkt
   modal.classList.remove("hidden");
 
