@@ -146,3 +146,38 @@ h1 {
   padding: 30px;
   border-radius: 20px;
 }
+
+.jar-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+
+  animation: cardPop 0.4s ease;
+}
+
+@keyframes cardPop {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+#jarBook {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 15px;
+
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s ease;
+}
+
+#jarBook.show {
+  opacity: 1;
+  transform: translateY(0);
+}
