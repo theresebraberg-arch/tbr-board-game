@@ -124,14 +124,28 @@ async function handleSquare() {
 function drawFromJar() {
   const currentSquare = gameBoard[position];
 
-  if (!currentSquare || currentSquare !== "TBR jar") {
+  if (!currentSquare.toLowerCase().includes("tbr jar")) {
+    alert("Du måste landa på TBR jar först 😊");
     return;
   }
 
   const book = books[Math.floor(Math.random() * books.length)];
-  jarBook.textContent = book;
-  jarModal.classList.remove("hidden");
-  jarModal.setAttribute("aria-hidden", "false");
+
+  const modal = document.getElementById("jarModal");
+  const bookEl = document.getElementById("jarBook");
+
+  // Visa modal direkt
+  modal.classList.remove("hidden");
+
+  // Dölj text först
+  bookEl.classList.remove("show");
+  bookEl.textContent = "";
+
+  // Delay = reveal känsla 😏
+  setTimeout(() => {
+    bookEl.textContent = book;
+    bookEl.classList.add("show");
+  }, 300);
 }
 
 function closeJar() {
