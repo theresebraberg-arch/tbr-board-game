@@ -131,48 +131,25 @@ function drawFromJar() {
 
   const book = books[Math.floor(Math.random() * books.length)];
 
-  const modal = document.getElementById("jarModal");
-  const bookEl = document.getElementById("jarBook");
-
   // Visa modal
-  modal.classList.remove("hidden");
+  jarModal.classList.remove("hidden");
 
-  // 🔥 FIXEN ÄR HÄR
-  bookEl.classList.remove("hidden");
+  // Visa text
+  jarBook.classList.remove("hidden");
 
-  // Reset
-  bookEl.classList.remove("show");
-  bookEl.textContent = "✨ Drar din bok...";
+  // Reset animation
+  jarBook.classList.remove("show");
+  jarBook.textContent = "✨ Drar din bok...";
 
   // Reveal
   setTimeout(() => {
-    bookEl.textContent = book;
-    bookEl.classList.add("show");
+    jarBook.textContent = book;
+    jarBook.classList.add("show");
   }, 400);
-}
-
-  const book = books[Math.floor(Math.random() * books.length)];
-
-  const modal = document.getElementById("jarModal");
-  const bookEl = document.getElementById("jarBook");
-
-  // Visa modal direkt
-  modal.classList.remove("hidden");
-
-  // Dölj text först
-  bookEl.classList.remove("show");
-  bookEl.textContent = "";
-
-  // Delay = reveal känsla 😏
-  setTimeout(() => {
-    bookEl.textContent = book;
-    bookEl.classList.add("show");
-  }, 300);
 }
 
 function closeJar() {
   jarModal.classList.add("hidden");
-  jarModal.setAttribute("aria-hidden", "true");
 }
 
 function resetGame() {
