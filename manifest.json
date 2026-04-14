@@ -1,0 +1,15 @@
+{
+  "name": "TBR Board Game",
+  "short_name": "TBR",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#e9d5ff",
+  "theme_color": "#c4b5fd",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}
