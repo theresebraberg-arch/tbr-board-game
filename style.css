@@ -58,17 +58,18 @@ h1 {
   100% { transform: rotate(0deg) scale(1); }
 }
 
-/* 🟪 BOARD (FIXAD) */
+/* 🟪 BOARD (BREDARE & RESPONSIVT) */
 #board {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* 👈 fyller bredd bättre */
   gap: 12px;
   padding: 20px;
 
-  max-width: 1000px;   /* 👈 håller sig inom din röda ram */
-  margin: 0 auto;      /* 👈 centrerar */
+  width: 95%;           /* 👈 sträcker ut sig mer */
+  max-width: 1400px;    /* 👈 stoppar från att bli för bred */
+  margin: 0 auto;       /* 👈 centrerar */
 
-  background: rgba(255,255,255,0.2); /* 👈 snygg "kort"-känsla */
+  background: rgba(255,255,255,0.2);
   border-radius: 20px;
 }
 
@@ -88,8 +89,9 @@ h1 {
 @media (max-width: 900px) {
   #board {
     grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-    max-width: 100%;   /* 👈 viktig fix för mindre skärmar */
-    border-radius: 0;  /* 👈 så det inte ser inklämt ut */
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
   }
 
   .cell {
@@ -168,7 +170,6 @@ h1 {
   padding: 30px;
   border-radius: 20px;
   text-align: center;
-
   animation: cardPop 0.4s ease;
 }
 
