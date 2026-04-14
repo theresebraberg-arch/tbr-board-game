@@ -64,7 +64,9 @@ h1 {
   grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 12px;
   padding: 20px;
-  width: 100%;
+
+  max-width: 1200px;   /* 👈 stoppar den från att bli för bred */
+  margin: 0 auto;      /* 👈 centrerar snyggt */
 }
 
 /* 💻 DESKTOP */
