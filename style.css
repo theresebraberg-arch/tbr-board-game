@@ -3,6 +3,8 @@ body {
   font-family: 'Quicksand', sans-serif;
   background: linear-gradient(to bottom, #c4b5fd, #e9d5ff);
   text-align: center;
+
+  overflow-x: hidden; /* 👈 stoppar sid-scroll */
 }
 
 /* 🏆 TITLE */
@@ -58,24 +60,23 @@ h1 {
   100% { transform: rotate(0deg) scale(1); }
 }
 
-/* 🟪 BOARD (FULL WIDTH FIX) */
+/* 🟪 BOARD (FULL WIDTH + FIXAD) */
 #board {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 12px;
 
-  width: 100%;        /* 👈 full bredd */
-  max-width: none;    /* 👈 ingen begränsning */
-  margin: 0;          /* 👈 ingen centrering */
+  width: 100%;
+  padding: 20px;
 
-  padding: 20px 40px; /* 👈 lite luft från kanterna */
+  box-sizing: border-box; /* 👈 gör att inget sticker ut */
 }
 
 /* 💻 DESKTOP */
 @media (min-width: 1200px) {
   #board {
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    padding: 20px 60px;
+    padding: 20px 40px;
   }
 
   .cell {
@@ -87,7 +88,7 @@ h1 {
 @media (max-width: 900px) {
   #board {
     grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-    padding: 15px; /* 👈 mindre padding på små skärmar */
+    padding: 15px;
   }
 
   .cell {
@@ -99,7 +100,7 @@ h1 {
 /* ✨ EXTRA LUFT PÅ STORA SKÄRMAR */
 @media (min-width: 1600px) {
   #board {
-    padding: 20px 120px;
+    padding: 20px 60px;
   }
 }
 
