@@ -58,15 +58,18 @@ h1 {
   100% { transform: rotate(0deg) scale(1); }
 }
 
-/* 🟪 BOARD (RESPONSIVE FIX) */
+/* 🟪 BOARD (FIXAD) */
 #board {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 12px;
   padding: 20px;
 
-  max-width: 1200px;   /* 👈 stoppar den från att bli för bred */
-  margin: 0 auto;      /* 👈 centrerar snyggt */
+  max-width: 1000px;   /* 👈 håller sig inom din röda ram */
+  margin: 0 auto;      /* 👈 centrerar */
+
+  background: rgba(255,255,255,0.2); /* 👈 snygg "kort"-känsla */
+  border-radius: 20px;
 }
 
 /* 💻 DESKTOP */
@@ -85,6 +88,8 @@ h1 {
 @media (max-width: 900px) {
   #board {
     grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    max-width: 100%;   /* 👈 viktig fix för mindre skärmar */
+    border-radius: 0;  /* 👈 så det inte ser inklämt ut */
   }
 
   .cell {
@@ -100,7 +105,7 @@ h1 {
   }
 }
 
-/* 🧩 CELL (NY SNYGG STYLE) */
+/* 🧩 CELL */
 .cell {
   padding: 14px;
   border-radius: 18px;
@@ -158,12 +163,6 @@ h1 {
 }
 
 /* 🪄 CARD */
-.jar-card {
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-}
-
 .jar-card {
   background: white;
   padding: 30px;
