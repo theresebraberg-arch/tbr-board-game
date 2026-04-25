@@ -85,9 +85,8 @@ async function rollDice() {
  // 🎲 visuella tärningar
  renderDice(document.getElementById("dice1"), dice1);
  renderDice(document.getElementById("dice2"), dice2);
-
- diceText.innerHTML = `
-  🎲 ${dice1} + ${dice2} = ${total}<br>
+  
+diceText.innerHTML = `
   <span class="dice-total">Du slog ${total}</span>
 `;
 
