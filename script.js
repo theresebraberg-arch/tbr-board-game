@@ -108,6 +108,11 @@ function moveOneStep() {
   });
 }
 
+function getDiceFace(num) {
+ const faces = ["⚀","⚁","⚂","⚃","⚄","⚅"];
+ return faces[num - 1];
+}
+
 async function handleSquare() {
   let square = gameBoard[position];
 
