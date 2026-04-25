@@ -1,63 +1,197 @@
 body {
- margin: 0;
- font-family: 'Quicksand', sans-serif;
- background: linear-gradient(to bottom, #c4b5fd, #e9d5ff);
- text-align: center;
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  background: linear-gradient(to bottom, #c4b5fd, #e9d5ff);
+  text-align: center;
+
+  overflow-x: hidden; /* 👈 stoppar sid-scroll */
 }
 
+/* 🏆 TITLE */
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  margin-top: 20px;
+}
+
+/* 🎲 TOP AREA */
+#topArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 700px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 20px;
+}
+
+/* 🎲 BUTTONS */
+#diceArea button {
+  margin: 5px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+  background: #7c3aed;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* 🫙 JAR */
+#jar {
+  font-size: 40px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+/* ✨ HOVER ANIMATION */
+#jar:hover {
+  animation: jarWiggle 0.4s ease;
+}
+
+/* 💃 ANIMATION */
+@keyframes jarWiggle {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-8deg) scale(1.1); }
+  50% { transform: rotate(8deg) scale(1.15); }
+  75% { transform: rotate(-4deg) scale(1.1); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+/* 🟪 BOARD (FULL WIDTH + FIXAD) */
 #board {
- display: grid;
- grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
- gap: 10px;
- padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+
+  width: 100%;
+  padding: 20px;
+
+  box-sizing: border-box; /* 👈 gör att inget sticker ut */
 }
 
+/* 💻 DESKTOP */
+@media (min-width: 1200px) {
+  #board {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    padding: 20px 40px;
+  }
+
+  .cell {
+    font-size: 15px;
+  }
+}
+
+/* 📱 IPAD / MOBILE */
+@media (max-width: 900px) {
+  #board {
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    padding: 15px;
+  }
+
+  .cell {
+    font-size: 13px;
+    padding: 12px;
+  }
+}
+
+/* ✨ EXTRA LUFT PÅ STORA SKÄRMAR */
+@media (min-width: 1600px) {
+  #board {
+    padding: 20px 60px;
+  }
+}
+
+/* 🧩 CELL */
 .cell {
- padding: 14px;
- border-radius: 16px;
- background: rgba(255,255,255,0.5);
+  padding: 14px;
+  border-radius: 18px;
+  text-align: center;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  line-height: 1.2;
+  word-break: break-word;
+
+  position: relative;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+
+  backdrop-filter: blur(2px);
 }
 
+/* ✨ HOVER */
+.cell:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+/* 📖 PLAYER */
+.player {
+  position: absolute;
+  bottom: 4px;
+  right: 6px;
+  font-size: 18px;
+}
+
+/* 🟣 ACTIVE */
 .active {
- outline: 3px solid purple;
+  box-shadow: 0 0 0 3px #7c3aed, 0 8px 20px rgba(124,58,237,0.4);
 }
 
-/* RESULT CARD */
-#resultModal {
- position: fixed;
- inset: 0;
- background: rgba(0,0,0,0.4);
- display: flex;
- justify-content: center;
- align-items: center;
+/* 🫙 MODAL */
+#jarModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* ❌ HIDDEN */
 .hidden {
- display: none;
+  display: none !important;
 }
 
-.result-card {
- background: white;
- padding: 30px;
- border-radius: 20px;
- animation: pop 0.3s ease;
+/* 🪄 CARD */
+.jar-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  animation: cardPop 0.4s ease;
 }
 
-@keyframes pop {
- from { transform: scale(0.7); }
- to { transform: scale(1); }
+@keyframes cardPop {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-/* CONFETTI */
-.confetti {
- position: absolute;
- width: 8px;
- height: 8px;
- background: gold;
- border-radius: 50%;
- animation: fall 1s forwards;
+#jarBook {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 15px;
+
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s ease;
 }
 
-@keyframes fall {
- to { transform: translateY(200px); opacity: 0; }
+#jarBook.show {
+  opacity: 1;
+  transform: translateY(0);
 }
