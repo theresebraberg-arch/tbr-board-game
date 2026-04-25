@@ -78,17 +78,39 @@ async function rollDice() {
  if (isMoving) return;
  isMoving = true;
 
+ const diceEl1 = document.getElementById("dice1");
+ const diceEl2 = document.getElementById("dice2");
+
+ // 🎲 starta animation
+ diceEl1.classList.add("rolling");
+ diceEl2.classList.add("rolling");
+
+ // 🎲 fake roll (blinkar siffror snabbt)
+ for (let i = 0; i < 6; i++) {
+  const temp1 = Math.floor(Math.random() * 6) + 1;
+  const temp2 = Math.floor(Math.random() * 6) + 1;
+
+  renderDice(diceEl1, temp1);
+  renderDice(diceEl2, temp2);
+
+  await new Promise(r => setTimeout(r, 80));
+ }
+
+ // 🎯 slutresultat
  const dice1 = Math.floor(Math.random() * 6) + 1;
  const dice2 = Math.floor(Math.random() * 6) + 1;
  const total = dice1 + dice2;
 
- // 🎲 visuella tärningar
- renderDice(document.getElementById("dice1"), dice1);
- renderDice(document.getElementById("dice2"), dice2);
-  
-diceText.innerHTML = `
+ renderDice(diceEl1, dice1);
+ renderDice(diceEl2, dice2);
+
+ diceEl1.classList.remove("rolling");
+ diceEl2.classList.remove("rolling");
+
+ // 🔢 text
+ diceText.innerHTML = `
   <span class="dice-total">Du slog ${total}</span>
-`;
+ `;
 
  for (let i = 0; i < total; i += 1) {
   await moveOneStep();
