@@ -6,42 +6,36 @@
 <title>TBR Board Game</title>
 
 <link rel="stylesheet" href="style.css">
-
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<h1> TBR Board Game </h1>
+<h1>TBR Board Game</h1>
 
 <div id="topArea">
 
 <div id="diceArea">
-<div id="diceContainer">
-<div class="dice" id="dice1">⚀</div>
-<div class="dice" id="dice2">⚀</div>
-</div>
-
 <p id="diceText">Redo att spela</p>
-
-<button onclick="rollDice()"> Slå tärning</button>
-<button onclick="resetGame()"> Börja om</button>
+<button onclick="rollDice()">Slå tärning</button>
+<button onclick="resetGame()">Börja om</button>
 </div>
 
 <div id="jarArea">
 <div id="jar" onclick="drawFromJar()">🫙</div>
-<p id="jarText">TBR Jar</p>
+<p>TBR Jar</p>
 </div>
 
 </div>
 
 <div id="board"></div>
 
-<div id="jarModal" class="hidden">
-<div class="jar-card">
-<h2> Din bok</h2>
-<p id="jarBook" class="hidden"></p>
-<button onclick="closeJar()">Stäng</button>
+<!-- RESULT CARD -->
+<div id="resultModal" class="hidden">
+<div class="result-card">
+<h2>Din ruta</h2>
+<p id="resultText"></p>
+<button onclick="closeResult()">Stäng</button>
 </div>
 </div>
 
