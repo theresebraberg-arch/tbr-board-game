@@ -118,7 +118,9 @@ async function rollDice() {
 
  await handleSquare();
 
- isMoving = false;
+showResultCard(); // 👈 här händer magin
+
+isMoving = false;
 }
 
 function moveOneStep() {
