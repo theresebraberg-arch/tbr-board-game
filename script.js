@@ -88,11 +88,7 @@ async function rollDice() {
 
  // 🔢 text
  diceText.textContent = `🎲 ${dice1} + ${dice2} = ${total}`;
- diceText.classList.add("big-roll");
-
- setTimeout(() => {
-  diceText.classList.remove("big-roll");
- }, 1200);
+diceText.textContent = `🎲 ${dice1} + ${dice2} = ${total}`;
 
  for (let i = 0; i < total; i += 1) {
   await moveOneStep();
