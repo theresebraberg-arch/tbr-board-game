@@ -86,9 +86,10 @@ async function rollDice() {
  renderDice(document.getElementById("dice1"), dice1);
  renderDice(document.getElementById("dice2"), dice2);
 
- // 🔢 text
- diceText.textContent = `🎲 ${dice1} + ${dice2} = ${total}`;
-diceText.textContent = `🎲 ${dice1} + ${dice2} = ${total}`;
+ diceText.innerHTML = `
+  🎲 ${dice1} + ${dice2} = ${total}<br>
+  <span class="dice-total">Du slog ${total}</span>
+`;
 
  for (let i = 0; i < total; i += 1) {
   await moveOneStep();
