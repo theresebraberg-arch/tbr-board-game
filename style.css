@@ -10,7 +10,7 @@ body {
 /* 🏆 TITLE */
 h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 32px;
+  font-size: 40px;
   margin-top: 20px;
 }
 
@@ -41,14 +41,19 @@ h1 {
 
 /* 🫙 JAR */
 #jar {
-  font-size: 40px;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
+}
+  font-size: 60px; /* 👈 större */
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  display: inline-block;
 }
 
 /* ✨ HOVER ANIMATION */
 #jar:hover {
   animation: jarWiggle 0.4s ease;
+  transform: scale(1.1);
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
 }
 
 /* 💃 ANIMATION */
