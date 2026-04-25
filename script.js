@@ -119,11 +119,26 @@ function moveOneStep() {
   });
 }
 
-function getDiceFace(num) {
- const faces = ["⚀","⚁","⚂","⚃","⚄","⚅"];
- return faces[num - 1];
-}
+function renderDice(diceElement, value) {
+ diceElement.innerHTML = "";
 
+ const positions = {
+  1: [[2,2]],
+  2: [[1,1],[3,3]],
+  3: [[1,1],[2,2],[3,3]],
+  4: [[1,1],[1,3],[3,1],[3,3]],
+  5: [[1,1],[1,3],[2,2],[3,1],[3,3]],
+  6: [[1,1],[1,2],[1,3],[3,1],[3,2],[3,3]]
+ };
+
+ positions[value].forEach(([row, col]) => {
+  const dot = document.createElement("div");
+  dot.className = "dot";
+  dot.style.gridRow = row;
+  dot.style.gridColumn = col;
+  diceElement.appendChild(dot);
+ });
+}
 async function handleSquare() {
   let square = gameBoard[position];
 
