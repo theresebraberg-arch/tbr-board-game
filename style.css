@@ -197,14 +197,31 @@ h1 {
 }
 
 #diceVisual {
- margin-bottom: 10px;
- font-size: 40px;
  display: flex;
  justify-content: center;
- gap: 10px;
+ gap: 14px;
+ margin-bottom: 10px;
 }
 
-.big-roll {
- font-size: 26px;
- font-weight: 700;
+.dice {
+ width: 50px;
+ height: 50px;
+ background: white;
+ border-radius: 12px;
+ box-shadow: 
+   0 4px 10px rgba(0,0,0,0.2),
+   inset -3px -3px 6px rgba(0,0,0,0.1);
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ grid-template-rows: repeat(3, 1fr);
+ padding: 6px;
+}
+
+.dot {
+ width: 8px;
+ height: 8px;
+ background: #111;
+ border-radius: 50%;
+ justify-self: center;
+ align-self: center;
 }
