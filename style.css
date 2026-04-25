@@ -41,12 +41,11 @@ h1 {
 
 /* 🫙 JAR */
 #jar {
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
-}
-  font-size: 60px; /* 👈 större */
+  font-size: 60px;
   cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease;
   display: inline-block;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
 }
 
 /* ✨ HOVER ANIMATION */
