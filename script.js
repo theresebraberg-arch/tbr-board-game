@@ -215,3 +215,15 @@ document.addEventListener("DOMContentLoaded", () => {
   closeJar();
   renderBoard();
 });
+
+function showResultCard() {
+  const modal = document.getElementById("resultModal");
+  const text = document.getElementById("resultText");
+
+  text.textContent = gameBoard[position];
+  modal.classList.remove("hidden");
+}
+
+function closeResult() {
+  document.getElementById("resultModal").classList.add("hidden");
+}
