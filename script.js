@@ -82,7 +82,17 @@ async function rollDice() {
  const dice2 = Math.floor(Math.random() * 6) + 1;
  const total = dice1 + dice2;
 
+ // 🎲 visuella tärningar
+ document.getElementById("dice1").textContent = getDiceFace(dice1);
+ document.getElementById("dice2").textContent = getDiceFace(dice2);
+
+ // 🔢 text
  diceText.textContent = `🎲 ${dice1} + ${dice2} = ${total}`;
+ diceText.classList.add("big-roll");
+
+ setTimeout(() => {
+  diceText.classList.remove("big-roll");
+ }, 1200);
 
  for (let i = 0; i < total; i += 1) {
   await moveOneStep();
@@ -92,6 +102,7 @@ async function rollDice() {
 
  isMoving = false;
 }
+
 function moveOneStep() {
   return new Promise((resolve) => {
     setTimeout(() => {
