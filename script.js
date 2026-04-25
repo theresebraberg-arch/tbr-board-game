@@ -116,9 +116,12 @@ async function rollDice() {
   await moveOneStep();
  }
 
- await handleSquare();
+await handleSquare();
 
-showResultCard(); // 👈 här händer magin
+// ⏳ liten paus innan card visas
+setTimeout(() => {
+  showResultCard();
+}, 1000);
 
 isMoving = false;
 }
