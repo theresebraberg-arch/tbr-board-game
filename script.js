@@ -75,21 +75,23 @@ function renderBoard() {
 }
 
 async function rollDice() {
-  if (isMoving) return;
+ if (isMoving) return;
+ isMoving = true;
 
-  isMoving = true;
+ const dice1 = Math.floor(Math.random() * 6) + 1;
+ const dice2 = Math.floor(Math.random() * 6) + 1;
+ const total = dice1 + dice2;
 
-  const roll = Math.floor(Math.random() * 6) + 1;
-  diceText.textContent = `🎲 Du slog: ${roll}`;
+ diceText.textContent = `🎲 ${dice1} + ${dice2} = ${total}`;
 
-  for (let i = 0; i < roll; i += 1) {
-    await moveOneStep();
-  }
+ for (let i = 0; i < total; i += 1) {
+  await moveOneStep();
+ }
 
-  await handleSquare();
-  isMoving = false;
+ await handleSquare();
+
+ isMoving = false;
 }
-
 function moveOneStep() {
   return new Promise((resolve) => {
     setTimeout(() => {
