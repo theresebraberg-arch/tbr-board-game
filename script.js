@@ -83,8 +83,8 @@ async function rollDice() {
  const total = dice1 + dice2;
 
  // 🎲 visuella tärningar
- document.getElementById("dice1").textContent = getDiceFace(dice1);
- document.getElementById("dice2").textContent = getDiceFace(dice2);
+ renderDice(document.getElementById("dice1"), dice1);
+ renderDice(document.getElementById("dice2"), dice2);
 
  // 🔢 text
  diceText.textContent = `🎲 ${dice1} + ${dice2} = ${total}`;
